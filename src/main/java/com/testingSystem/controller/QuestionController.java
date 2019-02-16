@@ -3,7 +3,7 @@ package com.testingSystem.controller;
 import com.testingSystem.model.services.QuestionStatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -20,7 +20,8 @@ public class QuestionController {
 
     @GetMapping
     @RequestMapping("")
-    public String showStartPage(ModelMap model) {
+    public String showQuestionStatistic(Model model) {
+        model.addAttribute("list",questionStatisticService.getQuestionInfoList());
         return "QuestionInfo";
     }
 }

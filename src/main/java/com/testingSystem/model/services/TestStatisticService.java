@@ -16,18 +16,18 @@ import java.util.List;
 public class TestStatisticService {
 
     public static final class TestInfo{
-        private String test;
+        private String testName;
         private String numberOfTimes;
         private String percent;
 
-        public TestInfo(String test, String numberOfTimes, String percent) {
-            this.test = test;
+        TestInfo(String testName, String numberOfTimes, String percent) {
+            this.testName = testName;
             this.numberOfTimes = numberOfTimes;
             this.percent = percent;
         }
 
         public String getTest() {
-            return test;
+            return testName;
         }
 
         public String getNumberOfTimes() {
@@ -38,7 +38,12 @@ public class TestStatisticService {
             return percent;
         }
 
-
+        @Override
+        public String toString() {
+            return testName + " " +
+                    numberOfTimes + " " +
+                    percent;
+        }
     }
 
     private QuestionDao questionDao;
@@ -62,9 +67,7 @@ public class TestStatisticService {
      */
     private TestInfo getTestInfo(String testName, List<Question> allQuestionsFromTest){
         TestInfo testInfo = null;
-        // сумарное количество ответов на вопрос
-        int numberOfQuestionsInTest= 0;
-        // сколько раз был пройден тест
+        // Тест пройден столько раз, сколько ответов было дано на первый вопрос из теста.
         int numberOfTimes = 0;
         // количество правильных ответов на тесте
         double countOfCorrecetAnswers = 0;
@@ -73,7 +76,7 @@ public class TestStatisticService {
         // значит и для всех отстальных вопросов не будет ответов в БД. Тест ни разу не проходили.
         List<Statistic> statisticList = statisticDao.getAllStatisticByQuestionId(allQuestionsFromTest.get(0).getQuestionId());
         if(!statisticList.isEmpty()){
-            numberOfQuestionsInTest = statisticList.size();
+            numberOfTimes = statisticList.size();
         }else {
             return new TestInfo(testName,"Тест ни разу не проходили", "0%");
         }
@@ -90,8 +93,9 @@ public class TestStatisticService {
             }
         }
 
-        numberOfTimes = statisticList.size()/numberOfQuestionsInTest;
-        return new TestInfo(testName, String.valueOf(numberOfTimes),countOfCorrecetAnswers/statisticList.size() + "0");
+        return new TestInfo(testName,
+                String.valueOf(numberOfTimes),
+                Math.round(countOfCorrecetAnswers / statisticList.size() * 100) + "%");
     }
 
     public List<TestInfo> getTestInfoList(){

@@ -27,6 +27,13 @@ public class QuestionStatisticService {
             this.percent = percent;
         }
 
+        @Override
+        public String toString() {
+            return questionName + " " +
+                    numberOfTimes + " " +
+                    percent;
+        }
+
         public String getQuestionName() {
             return questionName;
         }
@@ -56,8 +63,9 @@ public class QuestionStatisticService {
         QuestionInfo questionInfo = null;
 
         List<Statistic> statisticList = statisticDao.getAllStatisticByQuestionId(question.getQuestionId());
+        // System.out.println(statisticList); Почему он создаётся 2 раза????!!!!
         //Если есть хоть какая-то статистика для вопроса
-        if(statisticList != null){
+        if(!statisticList.isEmpty()){
             // сумарное количество ответов на вопрос
             int numberOfTimes = statisticList.size();
             // количество правильных ответов на вопрос
@@ -70,7 +78,7 @@ public class QuestionStatisticService {
             questionInfo = new QuestionInfo(
                     question.getDescription(),
                     String.valueOf(numberOfTimes),
-                    countOfCorrecetAnswers / numberOfTimes * 100 + "%");
+                    Math.round(countOfCorrecetAnswers / numberOfTimes * 100) + "%");
         }
         // Иначе вернуть описание вопроса и, что пройден он 0 раз.
         else {
