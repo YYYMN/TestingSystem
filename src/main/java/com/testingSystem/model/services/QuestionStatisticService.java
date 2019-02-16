@@ -52,25 +52,31 @@ public class QuestionStatisticService {
     /**
      * Получает объкт типа Question. На основании его делает запрос в БД и формирует объект для JSP.
      */
-    private QuestionInfo createQInfobj(Question question){
+    private QuestionInfo getQuestionInfo(Question question){
         QuestionInfo questionInfo = null;
 
         List<Statistic> statisticList = statisticDao.getAllStatisticByQuestionId(question.getQuestionId());
+        //Если есть хоть какая-то статистика для вопроса
         if(statisticList != null){
             // сумарное количество ответов на вопрос
             int numberOfTimes = statisticList.size();
-            // процент правильных ответов на вопрос
-            double correcet = 0;
-
+            // количество правильных ответов на вопрос
+            double countOfCorrecetAnswers = 0;
             for (Statistic statistic : statisticList){
                 if (statistic.isCorrect()){
-                    correcet ++;
+                    countOfCorrecetAnswers ++;
                 }
             }
             questionInfo = new QuestionInfo(
                     question.getDescription(),
                     String.valueOf(numberOfTimes),
-                    correcet / numberOfTimes * 100 + "%");
+                    countOfCorrecetAnswers / numberOfTimes * 100 + "%");
+        }
+        // Иначе вернуть описание вопроса и, что пройден он 0 раз.
+        else {
+            questionInfo = new QuestionInfo(question.getDescription(),
+                    "Ответов на вопрос ещё не было",
+                    "0%");
         }
 
         return questionInfo;
@@ -80,26 +86,12 @@ public class QuestionStatisticService {
      * Возвращает лист объектов для JSP
      */
     public List<QuestionInfo> getQuestionInfoList(){
-
         List<QuestionInfo> questionInfoList = new ArrayList<>();
-
         QuestionInfo questionInfo;
-
         List<Question> questionList = questionDao.getAllQuestions();
         for (Question question : questionList) {
-            questionInfo = createQInfobj(question);
-            //Если есть хоть какая-то статистика для вопроса
-            if(questionInfo != null) {
-                questionInfoList.add(questionInfo);
-            }
-            // Иначе вернуть описание вопроса и, что пройден он 0 раз.
-            else {
-                questionInfoList.add(
-                        new QuestionInfo(question.getDescription(),
-                                "Ответов на вопрос ещё не было",
-                                "0%")
-                );
-            }
+            questionInfo = getQuestionInfo(question);
+            questionInfoList.add(questionInfo);
         }
 
         //questionNumberOfTimesPercentList = questionNumberOfTimesPercentList.stream()

@@ -37,6 +37,10 @@ gradlew.bat
 # IntelliJ
 /out/
 
+# Maven
+target/
+lib/
+
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
