@@ -33,4 +33,7 @@ public class Topic {
         this.desription = desription;
     }
 
+    public void setTopicId(Integer topicId) {
+        this.topicId = topicId;
+    }
 }

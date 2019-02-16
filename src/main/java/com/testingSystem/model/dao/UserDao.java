@@ -1,7 +1,7 @@
 package com.testingSystem.model.dao;
 
 
-import com.sun.tools.javac.util.List;
+import java.util.List;
 import com.testingSystem.model.entity.User;
 
 public interface UserDao {

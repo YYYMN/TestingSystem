@@ -1,23 +1,23 @@
 package com.testingSystem.model.entity;
 
 public class User {
+    private Integer userId;
     private String sureName;
     private String name;
-    private String patronymic;
     private String password;
     private String login;
-    private String email;
+    private String role;
+
 
     public User() {
     }
 
-    public User(String sureName, String name, String patronymic, String password, String login, String email) {
+    public User(String sureName, String name, String password, String login, String role) {
         this.sureName = sureName;
         this.name = name;
-        this.patronymic = patronymic;
         this.password = password;
         this.login = login;
-        this.email = email;
+        this.role = role;
     }
 
     public String getSureName() {
@@ -28,9 +28,6 @@ public class User {
         return name;
     }
 
-    public String getPatronymic() {
-        return patronymic;
-    }
 
     public String getPassword() {
         return password;
@@ -40,8 +37,8 @@ public class User {
         return login;
     }
 
-    public String getEmail() {
-        return email;
+    public String getRole() {
+        return role;
     }
 
     public void setSureName(String sureName) {
@@ -52,9 +49,6 @@ public class User {
         this.name = name;
     }
 
-    public void setPatronymic(String patronymic) {
-        this.patronymic = patronymic;
-    }
 
     public void setPassword(String password) {
         this.password = password;
@@ -64,19 +58,23 @@ public class User {
         this.login = login;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "sureName='" + sureName + '\'' +
+                "userId=" + userId +
+                ", sureName='" + sureName + '\'' +
                 ", name='" + name + '\'' +
-                ", patronymic='" + patronymic + '\'' +
                 ", password='" + password + '\'' +
                 ", login='" + login + '\'' +
-                ", email='" + email + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 }

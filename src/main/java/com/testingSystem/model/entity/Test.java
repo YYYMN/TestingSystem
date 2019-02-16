@@ -37,4 +37,12 @@ public class Test {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public void setTestId(Integer testId) {
+        this.testId = testId;
+    }
+
+    public void setTopicId(Integer topicId) {
+        this.topicId = topicId;
+    }
 }
