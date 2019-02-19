@@ -15,26 +15,25 @@ import java.util.List;
 @Service
 public class TestStatisticService {
 
+    //Кастомный класс для вывода данных в JSP
     public static final class TestInfo{
         private String testName;
-        private String numberOfTimes;
-        private String percent;
+        private int numberOfTimes;
+        private int percent;
 
-        TestInfo(String testName, String numberOfTimes, String percent) {
+        TestInfo(String testName, int numberOfTimes, int percent) {
             this.testName = testName;
             this.numberOfTimes = numberOfTimes;
             this.percent = percent;
         }
 
-        public String getTest() {
-            return testName;
-        }
+        public String getTestName() { return testName; }
 
-        public String getNumberOfTimes() {
+        public int getNumberOfTimes() {
             return numberOfTimes;
         }
 
-        public String getPercent() {
+        public int getPercent() {
             return percent;
         }
 
@@ -66,47 +65,49 @@ public class TestStatisticService {
      * значит тест был пройден дважды.
      */
     private TestInfo getTestInfo(String testName, List<Question> allQuestionsFromTest){
-        TestInfo testInfo = null;
-        // Тест пройден столько раз, сколько ответов было дано на первый вопрос из теста.
-        int numberOfTimes = 0;
-        // количество правильных ответов на тесте
+        // количество правильных ответов на тест
         double countOfCorrecetAnswers = 0;
 
-        // Если на 1й вопрос из теста нет ни одного ответа, т.е вернулся пустой лист
+        // Если на 1й вопрос из теста нет ни одного ответа, т.е вернулся пустой лист,
         // значит и для всех отстальных вопросов не будет ответов в БД. Тест ни разу не проходили.
         List<Statistic> statisticList = statisticDao.getAllStatisticByQuestionId(allQuestionsFromTest.get(0).getQuestionId());
         if(!statisticList.isEmpty()){
-            numberOfTimes = statisticList.size();
-        }else {
-            return new TestInfo(testName,"Тест ни разу не проходили", "0%");
-        }
-
-        // накапливание всех возможных ответов на вопросы из теста. Начинаем со второго вопроса из теста. (индекс у него в листе 1)
-        // и добавляем в лист
-        for (int i = 1; i < allQuestionsFromTest.size(); i++ ){
-            statisticList.addAll(statisticDao.getAllStatisticByQuestionId(allQuestionsFromTest.get(i).getQuestionId()));
-        }
-
-        for (Statistic statistic: statisticList){
-            if (statistic.isCorrect()){
-                countOfCorrecetAnswers++;
+            // Тест пройден столько раз, сколько ответов было дано на первый вопрос из теста.
+            int numberOfTimes = statisticList.size();
+            // Продолжаем накапливание всех возможных ответов на вопросы из теста.
+            // Начинаем уже со второго вопроса. (индекс у него в листе 1)
+            // и добавляем в лист
+            for (int i = 1; i < allQuestionsFromTest.size(); i++ ){
+                statisticList.addAll(statisticDao.getAllStatisticByQuestionId(allQuestionsFromTest.get(i).getQuestionId()));
             }
+
+            for (Statistic statistic: statisticList){
+                if (statistic.isCorrect()){
+                    countOfCorrecetAnswers++;
+                }
+            }
+
+            return new TestInfo(testName,
+                    numberOfTimes,
+                    (int) Math.round(countOfCorrecetAnswers / statisticList.size() * 100));
+        }else {
+            return null;
+            //new TestInfo(testName,"Тест ни разу не проходили", "0%");
         }
 
-        return new TestInfo(testName,
-                String.valueOf(numberOfTimes),
-                Math.round(countOfCorrecetAnswers / statisticList.size() * 100) + "%");
     }
 
     public List<TestInfo> getTestInfoList(){
         List<TestInfo> testInfoList = new ArrayList<>();
-
+        TestInfo testInfo;
         // Получить все тесты
         List<Test> testList = testDao.getAllTests();
         for (Test test: testList){
             // Для каждого теста получить список вопросов к нему и передать в функцию
-            TestInfo testInfo = getTestInfo(test.getTestName(),questionDao.getAllQuestionsByTestId(test.getTestId()));
-            testInfoList.add(testInfo);
+            testInfo = getTestInfo(test.getTestName(),questionDao.getAllQuestionsByTestId(test.getTestId()));
+            if (testInfo != null) {
+                testInfoList.add(testInfo);
+            }
         }
 
         //Могут повторяться имена тестов. В идеале их надо объединять в один.

@@ -15,22 +15,18 @@ public class QuestionImpl implements QuestionDao {
 
     private JdbcTemplate jdbcTemplate;
 
-    private final String SQL_GET_ALL_QUESTIONS =
-            "select * from testingsystem.question";
-
-    private final String SQL_GET_ALL_QUESTIONS_BY_TESTID =
-            "select * from testingsystem.question where testId = ?";
-
     @Autowired
     public QuestionImpl(AppConfig config) {
         jdbcTemplate = new JdbcTemplate(config.dataSource());
     }
 
     public List<Question> getAllQuestionsByTestId(Integer testId) {
+        String SQL_GET_ALL_QUESTIONS_BY_TESTID = "select * from testingsystem.question where testId = ?";
         return jdbcTemplate.query(SQL_GET_ALL_QUESTIONS_BY_TESTID,new Object[] {testId}, new QuestionMapper());
     }
 
     public List<Question> getAllQuestions() {
+        String SQL_GET_ALL_QUESTIONS = "select * from testingsystem.question";
         return jdbcTemplate.query(SQL_GET_ALL_QUESTIONS,new QuestionMapper());
     }
 }

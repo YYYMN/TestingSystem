@@ -18,10 +18,10 @@ public class QuestionStatisticService {
      */
     public static final class QuestionInfo {
         private String questionName;
-        private String numberOfTimes;
-        private String percent;
+        private int numberOfTimes;
+        private int percent;
 
-        QuestionInfo(String questionName, String numberOfTimes, String percent) {
+        QuestionInfo(String questionName, int numberOfTimes, int percent) {
             this.questionName = questionName;
             this.numberOfTimes = numberOfTimes;
             this.percent = percent;
@@ -38,11 +38,11 @@ public class QuestionStatisticService {
             return questionName;
         }
 
-        public String getNumberOfTimes() {
+        public int getNumberOfTimes() {
             return numberOfTimes;
         }
 
-        public String getPercent() {
+        public int getPercent() {
             return percent;
         }
     }
@@ -60,7 +60,7 @@ public class QuestionStatisticService {
      * Получает объкт типа Question. На основании его делает запрос в БД и формирует объект для JSP.
      */
     private QuestionInfo getQuestionInfo(Question question){
-        QuestionInfo questionInfo = null;
+        QuestionInfo questionInfo;
 
         List<Statistic> statisticList = statisticDao.getAllStatisticByQuestionId(question.getQuestionId());
         // System.out.println(statisticList); Почему он создаётся 2 раза????!!!!
@@ -77,14 +77,15 @@ public class QuestionStatisticService {
             }
             questionInfo = new QuestionInfo(
                     question.getDescription(),
-                    String.valueOf(numberOfTimes),
-                    Math.round(countOfCorrecetAnswers / numberOfTimes * 100) + "%");
+                    numberOfTimes,
+                    (int) Math.round(countOfCorrecetAnswers / numberOfTimes * 100));
         }
         // Иначе вернуть описание вопроса и, что пройден он 0 раз.
         else {
-            questionInfo = new QuestionInfo(question.getDescription(),
+            questionInfo = null;
+                    /*new QuestionInfo(question.getDescription(),
                     "Ответов на вопрос ещё не было",
-                    "0%");
+                    "0%");*/
         }
 
         return questionInfo;
@@ -99,7 +100,9 @@ public class QuestionStatisticService {
         List<Question> questionList = questionDao.getAllQuestions();
         for (Question question : questionList) {
             questionInfo = getQuestionInfo(question);
-            questionInfoList.add(questionInfo);
+            if(questionInfo != null){
+                questionInfoList.add(questionInfo);
+            }
         }
 
         //questionNumberOfTimesPercentList = questionNumberOfTimesPercentList.stream()

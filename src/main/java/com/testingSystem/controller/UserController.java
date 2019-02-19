@@ -1,6 +1,6 @@
 package com.testingSystem.controller;
 
-import com.testingSystem.model.services.TestStatisticService;
+import com.testingSystem.model.services.UserStatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,19 +8,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class TestController {
+public class UserController {
 
-    private TestStatisticService testStatisticService;
+    private UserStatisticService userStatisticService;
 
     @Autowired
-    public TestController(TestStatisticService testStatisticService) {
-        this.testStatisticService= testStatisticService;
+    public UserController(UserStatisticService userStatisticService) {
+        this.userStatisticService = userStatisticService;
     }
 
     @GetMapping
-    @RequestMapping("/TestsInfo")
+    @RequestMapping("/UsersInfo")
     public String showTestStatistic(Model model){
-        model.addAttribute("list", testStatisticService.getTestInfoList());
-        return "TestsInfo";
+        model.addAttribute("list", userStatisticService.getUserInfoList());
+        return "UsersInfo";
     }
 }

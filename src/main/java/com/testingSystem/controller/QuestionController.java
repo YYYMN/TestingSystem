@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/QuestionInfo")
 public class QuestionController {
 
     private QuestionStatisticService questionStatisticService;
@@ -19,9 +18,9 @@ public class QuestionController {
     }
 
     @GetMapping
-    @RequestMapping("")
+    @RequestMapping("/QuestionsInfo")
     public String showQuestionStatistic(Model model) {
         model.addAttribute("list",questionStatisticService.getQuestionInfoList());
-        return "QuestionInfo";
+        return "QuestionsInfo";
     }
 }

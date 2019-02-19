@@ -2,8 +2,8 @@ package com.testingSystem.model.entity;
 
 public class User {
     private Integer userId;
-    private String sureName;
-    private String name;
+    private String firstName;
+    private String lastName;
     private String password;
     private String login;
     private String role;
@@ -12,22 +12,25 @@ public class User {
     public User() {
     }
 
-    public User(String sureName, String name, String password, String login, String role) {
-        this.sureName = sureName;
-        this.name = name;
+    public User(String firstName, String lastName, String password, String login, String role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
         this.login = login;
         this.role = role;
     }
 
-    public String getSureName() {
-        return sureName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getName() {
-        return name;
+    public String getLastName() {
+        return lastName;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
 
     public String getPassword() {
         return password;
@@ -41,12 +44,12 @@ public class User {
         return role;
     }
 
-    public void setSureName(String sureName) {
-        this.sureName = sureName;
+    public void setSurName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String lastName) {
+        this.lastName = lastName;
     }
 
 
@@ -70,8 +73,8 @@ public class User {
     public String toString() {
         return "User{" +
                 "userId=" + userId +
-                ", sureName='" + sureName + '\'' +
-                ", name='" + name + '\'' +
+                ", sureName='" + firstName + '\'' +
+                ", name='" + lastName + '\'' +
                 ", password='" + password + '\'' +
                 ", login='" + login + '\'' +
                 ", role='" + role + '\'' +

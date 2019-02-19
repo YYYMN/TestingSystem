@@ -15,15 +15,13 @@ public class StatisticImpl implements StatisticDao {
 
     private JdbcTemplate jdbcTemplate;
 
-    private final String SQL_GET_ALL_STATISTICS_BY_QUESTINID =
-            "select * from testingsystem.statistic where questionId = ?";
-
     @Autowired
     public StatisticImpl(AppConfig config){ jdbcTemplate = new JdbcTemplate(config.dataSource()); }
 
 
     @Override
     public List<Statistic> getAllStatisticByQuestionId(Integer questionId) {
+        String SQL_GET_ALL_STATISTICS_BY_QUESTINID = "select * from testingsystem.statistic where questionId = ?";
         return jdbcTemplate.query(SQL_GET_ALL_STATISTICS_BY_QUESTINID,new Object[]{questionId}, new StatisticMapper());
     }
 }

@@ -16,16 +16,13 @@ public class TestImpl implements TestDao {
 
     private JdbcTemplate jdbcTemplate;
 
-    private final String SQL_GET_ALL_TESTS= "select * from testingsystem.test";
-
     @Autowired
     public TestImpl(AppConfig config) {
         jdbcTemplate = new JdbcTemplate(config.dataSource());
     }
 
     public List<Test> getAllTests() {
+        String SQL_GET_ALL_TESTS = "select * from testingsystem.test";
         return jdbcTemplate.query(SQL_GET_ALL_TESTS, new TestMapper());
-
     }
-
-    }
+}
