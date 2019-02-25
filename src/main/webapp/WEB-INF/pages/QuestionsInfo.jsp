@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Question Info</title>
+    <title>Questions Info</title>
 </head>
 <body>
     <div align="center">

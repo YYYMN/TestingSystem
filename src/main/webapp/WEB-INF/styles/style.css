@@ -1,0 +1,36 @@
+.refPage {
+    position: absolute;
+    top: 150px;
+    right: 400px;
+}
+.picture{
+    position: absolute ;
+    top: 70px;
+    left: 450px;
+}
+a.text {
+    text-decoration: none;
+    color: rgb(51, 51, 204);
+    font-size: 110%;
+}
+a.text:hover {
+    color: rgb(255, 153, 0);
+}
+a.button{
+    color: #fff; /* цвет текста */
+    text-decoration: none; /* убирать подчёркивание у ссылок */
+    font-size: 110%;
+    user-select: none; /* убирать выделение текста */
+    background: rgb(51, 51, 204); /* фон кнопки */
+    padding: .3em 3em; /* отступ от текста */
+    border-radius: 7px;
+}
+a.button:hover {
+    background: rgb(46, 46, 184);
+} /* при наведении курсора мышки */
+a.button:active {
+    background: rgb(36, 36, 143);
+} /* при нажатии */
+
+
+

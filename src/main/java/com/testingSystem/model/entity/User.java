@@ -44,14 +44,17 @@ public class User {
         return role;
     }
 
-    public void setSurName(String firstName) {
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public void setName(String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
 
     public void setPassword(String password) {
         this.password = password;
@@ -65,10 +68,6 @@ public class User {
         this.role = role;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -80,4 +79,5 @@ public class User {
                 ", role='" + role + '\'' +
                 '}';
     }
+
 }

@@ -147,13 +147,15 @@ public class UserStatisticService {
                     for (Statistic statistic: statisticList){
                         if(statistic.isCorrect()) countOfCorrectAnswers++;
                     }
-                    usersInfoList.add(new UserInfo(user.getFirstName() + " " + user.getLastName(),
+                    usersInfoList.add(new UserInfo(user.getLastName() + " " + user.getFirstName(),
                             test.getTestName(),
                             statisticList.size()/countQuestionsInTest.getCount(),
                             (int) Math.round(countOfCorrectAnswers / statisticList.size() * 100)));
                 }
             }
         }
+        // сортировка списка по Фамилии
+        usersInfoList.sort(Comparator.comparing(o -> o.userNameAndSurname));
         return usersInfoList;
     }
 }

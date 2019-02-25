@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -110,6 +111,8 @@ public class TestStatisticService {
             }
         }
 
+        // сортировка списка по названию теста
+        testInfoList.sort(Comparator.comparing(o -> o.testName));
         //Могут повторяться имена тестов. В идеале их надо объединять в один.
         return testInfoList;
     }

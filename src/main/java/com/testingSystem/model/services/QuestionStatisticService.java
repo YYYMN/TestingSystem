@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -87,7 +89,6 @@ public class QuestionStatisticService {
                     "Ответов на вопрос ещё не было",
                     "0%");*/
         }
-
         return questionInfo;
     }
 
@@ -104,11 +105,13 @@ public class QuestionStatisticService {
                 questionInfoList.add(questionInfo);
             }
         }
-
+        // сортировка списка по названию вопроса
+        questionInfoList.sort(Comparator.comparing(o -> o.questionName));
         //questionNumberOfTimesPercentList = questionNumberOfTimesPercentList.stream()
           //      .collect(Collectors.groupingBy(QuestionInfo::getQuestionName)).values();
         // прежде чем вернуть этот лист, небходимо сгруппировать вопросы с одинаковым описанием в один.
         // т.к один и тот же вопрос может относиться к разным тестам из одного топика.
         return questionInfoList;
     }
+
 }
