@@ -17,8 +17,7 @@ public class TestController {
         this.testStatisticService= testStatisticService;
     }
 
-    @GetMapping
-    @RequestMapping("/TestsInfo")
+    @GetMapping("/TestsInfo")
     public String showTestStatistic(Model model){
         model.addAttribute("list", testStatisticService.getTestInfoList());
         return "TestsInfo";

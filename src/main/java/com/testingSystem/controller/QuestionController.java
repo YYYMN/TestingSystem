@@ -17,8 +17,7 @@ public class QuestionController {
         this.questionStatisticService = questionStatisticService;
     }
 
-    @GetMapping
-    @RequestMapping("/QuestionsInfo")
+    @GetMapping("/QuestionsInfo")
     public String showQuestionStatistic(Model model) {
         model.addAttribute("list",questionStatisticService.getQuestionInfoList());
         return "QuestionsInfo";
