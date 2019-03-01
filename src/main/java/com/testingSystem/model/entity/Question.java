@@ -8,6 +8,10 @@ public class Question {
     public Question() {
     }
 
+    public Question(String description) {
+        this.description = description;
+    }
+
     public Question(String description, Integer testId) {
         this.description = description;
         this.testId = testId;

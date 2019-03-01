@@ -2,7 +2,6 @@ package com.testingSystem.model.mapper;
 
 import com.testingSystem.model.entity.Role;
 import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
