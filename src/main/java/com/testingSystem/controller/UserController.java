@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -29,19 +30,21 @@ public class UserController {
     }
 
     @GetMapping("/AddUser")
-    public String createUser(Model model){
+    public String createUserPage(Model model){
         model.addAttribute("rolesList",addUserService.rolesList());
         return "AddUser";
     }
-    /*@PostMapping("/SaveUser")
-    public String addUser(Model model, @RequestParam(name = "role") String role,
-                          @RequestParam(name = "") String role,
-                          @RequestParam(name = "role") String role,
-                          @RequestParam(name = "role") String role,
-                          @RequestParam(name = "role") String role,)
+    @PostMapping("/SaveUser")
+    public String addUser(Model model, @ModelAttribute("role") String role,
+                          @ModelAttribute("lastName") String lastName,
+                          @RequestParam("firstName") String firstName,
+                          @RequestParam("password") String password,
+                          @RequestParam("login") String login,
+                          @RequestParam("email") String email)
     {
-        addUserService.addUser();
+        addUserService.addUser(role,lastName,firstName,login,password,email);
         model.addAttribute("success","New user was successfully added!");
+        model.addAttribute("rolesList",addUserService.rolesList());
         return "AddUser";
-    }*/
+    }
 }

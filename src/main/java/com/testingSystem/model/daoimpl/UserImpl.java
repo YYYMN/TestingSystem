@@ -26,12 +26,13 @@ public class UserImpl implements UserDao {
     }
 
     public void addUser(User user) {
-        String SQL_ADD_USER = "insert into testingsystem.user (firstName, lastName, login, password, roleId)" +
-                "values (?,?,?,?,?)";
-        jdbcTemplate.update(SQL_ADD_USER, user.getFirstName(),
-                user.getLastName(),
+        String SQL_ADD_USER = "insert into testingsystem.user (lastName, firstName, login, password, email, roleId)" +
+                "values (?,?,?,?,?,?)";
+        jdbcTemplate.update(SQL_ADD_USER, user.getLastName(),
+                user.getFirstName(),
                 user.getLogin(),
                 user.getPassword(),
+                user.getEmail(),
                 user.getRoleId());
     }
 

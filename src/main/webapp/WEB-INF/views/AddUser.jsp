@@ -22,10 +22,10 @@
          <input type="text" placeholder = "Имя" name="firstName" size="20"><br>
          <input type="password" placeholder = "Пароль" name="password" size="20"><br>
          <input type="text" placeholder = "Логин" name="login" size="20"><br>
-         <input type="text" placeholder = "Почта" name="mail" size="20"><br>
+         <input type="text" placeholder = "Почта" name="email" size="20"><br>
          <input type="submit" value="Сохранить пользователя" size="20"><br>
      </form>
  </div>
-
+<div>${success}<div>
 </body>
 </html>
