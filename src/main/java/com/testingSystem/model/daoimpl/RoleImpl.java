@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -21,8 +22,17 @@ public class RoleImpl implements RoleDao {
     }
 
     @Override
-    public List<Role> getAllRoles() {
+    public List<String> getRolesStringList() {
         String SQL_GET_ALL_ROLES = "select * from testingsystem.role";
-        return jdbcTemplate.query(SQL_GET_ALL_ROLES,new RoleMapper());
+        List<Role> roleList = jdbcTemplate.query(SQL_GET_ALL_ROLES,new RoleMapper());
+        List<String> rolesStringList = new ArrayList<>();
+        roleList.forEach(role -> rolesStringList.add(Role.getRole(role)));
+        return rolesStringList;
+    }
+
+    @Override
+    public Integer getRoleId(String role){
+        String SQL_GET_ROLE_ID = "select roleId from testingsystem.role where admin = ? and tutor = ? and user = ?";
+        return jdbcTemplate.queryForObject(SQL_GET_ROLE_ID,Integer.class,Role.getRoleData(role));
     }
 }

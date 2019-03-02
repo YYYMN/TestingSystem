@@ -1,23 +1,22 @@
 package com.testingSystem.model.entity;
 
 public class User {
-    private Integer userId;
+    private int userId;
     private String firstName;
     private String lastName;
     private String password;
     private String login;
-    private String role;
-
+    private int roleId;
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String password, String login, String role) {
+    public User(String firstName, String lastName, String password, String login, int roleId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.login = login;
-        this.role = role;
+        this.roleId = roleId;
     }
 
     public String getFirstName() {
@@ -40,8 +39,8 @@ public class User {
         return login;
     }
 
-    public String getRole() {
-        return role;
+    public int getRoleId() {
+        return roleId;
     }
 
     public void setUserId(Integer userId) {
@@ -64,8 +63,8 @@ public class User {
         this.login = login;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRole(int roleId) {
+        this.roleId = roleId;
     }
 
     @Override
@@ -76,7 +75,7 @@ public class User {
                 ", name='" + lastName + '\'' +
                 ", password='" + password + '\'' +
                 ", login='" + login + '\'' +
-                ", role='" + role + '\'' +
+                ", role='" + roleId + '\'' +
                 '}';
     }
 
