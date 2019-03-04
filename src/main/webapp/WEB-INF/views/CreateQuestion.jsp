@@ -9,6 +9,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="<c:url value="/resources/scripts/AddNewAnswer.js"/>"></script>
     <title>CreateQuestion</title>
 </head>
 <body>
@@ -18,10 +20,11 @@
 <div class="CreateQuestionPage" align="center">
     <form method="post" action="">
         <input type="text" name="question" placeholder = "Введите новый вопрос"><br>
+        <div id="dynamic_field">
+            <input type="text" id="question1" placeholder = "1. Ответ"><br>
+        </div>
         <input type="text" placeholder = "1. Ответ"><br>
-        <input type="text" placeholder = "2. Ответ"><br>
-        <input type="text" placeholder = "3. Ответ"><br>
-        <input type="text" placeholder = "4. Ответ"><br>
+        <button type="button" name="add" id="add" class="btn btn-success">Добавить ответ</button>
         <button id="updateQuestion" name="btn" value="save" type="submit" >Сохранить</button>
     </form>
 </div>

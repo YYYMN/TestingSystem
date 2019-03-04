@@ -32,6 +32,6 @@ public class QuestionImpl implements QuestionDao {
 
     public List<Question> getAllQuestions() {
         String SQL_GET_ALL_QUESTIONS = "select * from testingsystem.question";
-        return jdbcTemplate.query(SQL_GET_ALL_QUESTIONS,new QuestionMapper());
+        return jdbcTemplate.query(SQL_GET_ALL_QUESTIONS, new QuestionMapper());
     }
 }
