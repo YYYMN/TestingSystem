@@ -28,6 +28,7 @@ public class QuestionImpl implements QuestionDao {
     public void addQuestionToDb(Question question) {
         String SQL_ADD_QUESTION_TO_DB = "insert into question (description) values(?)";
         jdbcTemplate.update(SQL_ADD_QUESTION_TO_DB, question.getDescription());
+
     }
 
     public List<Question> getAllQuestions() {

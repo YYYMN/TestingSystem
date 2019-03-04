@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 
 @Controller
 public class QuestionController {
@@ -45,8 +47,10 @@ public class QuestionController {
     }
 
     @PostMapping("/CreateQuestion")
-    public String createQuestion(@RequestParam(name = "btn") String button, @RequestParam(name = "question", required = false ) String question) {
-        return questionEditingService.addByButton(button, question);
+    public String createQuestion(@RequestParam(name = "btn") String button, @RequestParam(name = "question", required = false) String question,
+                                 @RequestParam(name = "answer[]", required = false) String[] answers) {
+
+        return questionEditingService.addQuestionByButton(button, question, answers);
     }
 
 
