@@ -1,6 +1,5 @@
 package com.testingSystem.controller;
 
-import com.testingSystem.model.dao.RoleDao;
 import com.testingSystem.model.services.AddUserService;
 import com.testingSystem.model.services.UserStatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
