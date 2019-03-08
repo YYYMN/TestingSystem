@@ -5,8 +5,8 @@
 }
 .CreateUserPage {
     position: absolute;
-    top: 150px;
-    right: 400px;
+    top: 80px;
+    right: 380px;
 }
 .picture{
     position: absolute ;
@@ -22,7 +22,7 @@ a.text:hover {
     color: rgb(255, 153, 0);
 }
 a.button{
-    color: #fff; /* цвет текста */
+    color: white; /* цвет текста */
     text-decoration: none; /* убирать подчёркивание у ссылок */
     font-size: 110%;
     user-select: none; /* убирать выделение текста */
@@ -37,6 +37,23 @@ a.button:hover {
 a.button:active {
     background: rgb(36, 36, 143);
 } /* при нажатии */
-
-
+input {
+    width: 260px;
+    height: 35px;
+    padding: 12px 20px;
+    margin: 5px 0;
+    box-sizing: border-box;
+    border: 1px solid rgb(51, 51, 204);
+    border-radius: 10px;
+}
+input[type=submit]{
+    background: rgb(51, 51, 204);
+    color: white;
+}
+select {
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: 1px solid rgb(51, 51, 204);
+}
 
