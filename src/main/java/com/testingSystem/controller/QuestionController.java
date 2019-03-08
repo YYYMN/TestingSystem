@@ -8,9 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -47,10 +49,10 @@ public class QuestionController {
     }
 
     @PostMapping("/CreateQuestion")
-    public String createQuestion(@RequestParam(name = "btn") String button, @RequestParam(name = "question", required = false) String question,
-                                 @RequestParam(name = "answer[]", required = false) String[] answers) {
-
-        return questionEditingService.addQuestionByButton(button, question, answers);
+    public String createQuestion(Model model, @RequestParam(name = "btn") String button, @RequestParam(name = "question", required = false) String question,
+                                 @RequestParam(name = "answer[]", required = false) String[] answers, @RequestParam(name="checkbox_option", required = false) String[] checkbox_option) {
+        model.addAttribute("questions",questionImpl.getAllQuestions());
+        return questionEditingService.addQuestionByButton(button, question, answers, checkbox_option);
     }
 
 

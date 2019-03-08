@@ -6,6 +6,9 @@ import com.testingSystem.model.entity.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class QuestionEditingService {
 
@@ -18,10 +21,10 @@ public class QuestionEditingService {
         this.answerImpl = answerImpl;
     }
 
-    public String addQuestionByButton(String button, String question, String[] answers) {
+    public String addQuestionByButton(String button, String question, String[] answers, String[] checkbox_option) {
         if ("save".equals(button)) {
             questionImpl.addQuestionToDb(new Question(question));
-            answerImpl.addAnswersToDb(answers, question);
+            answerImpl.addAnswersToDb(answers, question, checkbox_option);
             return "CreateQuestion";
         }else return "CreateQuestion";
     }

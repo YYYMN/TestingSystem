@@ -8,5 +8,5 @@ import java.util.List;
 public interface AnswerDao {
     List<Answer> getAllAnswers();
 
-    void addAnswersToDb(String[] answers, String question);
+    void addAnswersToDb(String[] answers, String question, String[] checkbox_option);
 }

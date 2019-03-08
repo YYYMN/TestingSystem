@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -31,12 +32,22 @@ public class AnswerImpl implements AnswerDao {
 
 
     @Override
-    public void addAnswersToDb(String[] answers, String question) {
+    public void addAnswersToDb(String[] answers, String question, String[] checkbox_option) {
         String SQL_FIND_QUESTION_ID = "select questionId from question where question.description='"+question+"'";
         int questionId = jdbcTemplate.queryForObject(SQL_FIND_QUESTION_ID, Integer.class);
-        String SQL_ADD_ANSWER_TO_DB = "insert into answer (description,questionId) values(?,?)";
-        for (String answer : answers){
-            jdbcTemplate.update(SQL_ADD_ANSWER_TO_DB, answer, questionId);
+
+        List<Integer> correctList = new ArrayList<>();
+        int corr;
+        for(String correct : checkbox_option){
+            if (correct.equals("true")){
+                corr = 1;
+            }else corr = 0;
+            correctList.add(corr);
+        }
+
+        String SQL_ADD_ANSWER_TO_DB = "insert into answer (description,questionId,correct) values(?,?,?)";
+        for (int i = 0; i < answers.length; i++){
+            jdbcTemplate.update(SQL_ADD_ANSWER_TO_DB, answers[i], questionId, correctList.get(i));
         }
 
     }
