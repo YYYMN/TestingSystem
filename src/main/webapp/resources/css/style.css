@@ -15,27 +15,27 @@
 }
 a.text {
     text-decoration: none;
-    color: rgb(51, 51, 204);
+    color: rgb(50, 50, 230);
     font-size: 110%;
 }
 a.text:hover {
-    color: rgb(255, 153, 0);
+    color: rgb(255, 150, 0);
 }
 a.button{
     color: white; /* цвет текста */
     text-decoration: none; /* убирать подчёркивание у ссылок */
     font-size: 110%;
     user-select: none; /* убирать выделение текста */
-    background: rgb(51, 51, 204); /* фон кнопки */
+    background: rgb(50, 50, 240); /* фон кнопки */
     padding: .3em 3em; /* отступ от текста */
-    border-radius: 7px;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.5);
 }
 a.button:hover {
-    background: rgb(46, 46, 184);
+    background: rgb(50, 50, 180);
 } /* при наведении курсора мышки */
 a.button:active {
-    background: rgb(36, 36, 143);
+    background: rgb(40, 40, 140);
 } /* при нажатии */
 input {
     width: 260px;
@@ -43,17 +43,52 @@ input {
     padding: 12px 20px;
     margin: 5px 0;
     box-sizing: border-box;
-    border: 1px solid rgb(51, 51, 204);
+    border: 1px solid rgb(50, 50, 240);
     border-radius: 10px;
 }
 input[type=submit]{
-    background: rgb(51, 51, 204);
     color: white;
+    text-decoration: none;
+    font-size: 100%;
+    user-select: none;
+    background: rgb(50, 50, 240);
+    padding: .3em 3em;
+    border-radius: 7px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+}
+input[type=submit]:hover{
+    background: rgb(50, 50, 180);
+}
+input[type=submit]:active{
+    background: rgb(40, 40, 140);
 }
 select {
     width: 100%;
     padding: 12px 20px;
     border-radius: 10px;
-    border: 1px solid rgb(51, 51, 204);
+    border: 1px solid rgb(50, 50, 240);
+}
+table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 50%;
+}
+
+td, th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+tr:nth-child(even){background-color: #f2f2f2;}
+
+tr:hover {background-color: #ddd;}
+
+th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: rgb(50, 50, 240);
+    color: white;
 }
 
