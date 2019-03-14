@@ -7,6 +7,7 @@ import java.util.List;
 public interface QuestionDao {
     List<Question> getAllQuestions();
     List<Question> getAllQuestionsByTestId(Integer testId);
-    void addQuestionToDb(Question question);
+    void addQuestionToDb(String question);
+    Question getQuestionByDescription(String question);
 
 }

@@ -1,18 +1,19 @@
 package com.testingSystem.controller;
 
+import com.testingSystem.model.daoimpl.AnswerImpl;
 import com.testingSystem.model.daoimpl.QuestionImpl;
+import com.testingSystem.model.entity.Answer;
+import com.testingSystem.model.entity.Question;
 import com.testingSystem.model.services.QuestionEditingService;
 import com.testingSystem.model.services.QuestionStatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 
 @Controller
@@ -20,15 +21,16 @@ public class QuestionController {
 
     private QuestionStatisticService questionStatisticService;
     private QuestionImpl questionImpl;
+    private AnswerImpl answerImpl;
     private QuestionEditingService questionEditingService;
 
     @Autowired
-    public QuestionController(QuestionStatisticService questionStatisticService, QuestionImpl questionImpl, QuestionEditingService questionEditingService) {
+    public QuestionController(QuestionStatisticService questionStatisticService, QuestionImpl questionImpl, AnswerImpl answerImpl, QuestionEditingService questionEditingService) {
         this.questionStatisticService = questionStatisticService;
         this.questionImpl = questionImpl;
+        this.answerImpl = answerImpl;
         this.questionEditingService = questionEditingService;
     }
-
 
     @GetMapping("/QuestionsInfo")
     public String showQuestionStatistic(Model model) {
@@ -49,11 +51,21 @@ public class QuestionController {
     }
 
     @PostMapping("/CreateQuestion")
-    public String createQuestion(Model model, @RequestParam(name = "btn") String button, @RequestParam(name = "question", required = false) String question,
-                                 @RequestParam(name = "answer[]", required = false) String[] answers, @RequestParam(name="checkbox_option", required = false) String[] checkbox_option) {
+    public String createQuestion(Model model, @RequestParam(name = "btn") String button,
+                                              @RequestParam(name = "question", required = false) String question,
+                                              @RequestParam(name = "answer[]", required = false) String[] answers,
+                                              @RequestParam(name="checkbox_option", required = false) String[] checkbox_option) {
+
+
+
+
         model.addAttribute("questions",questionImpl.getAllQuestions());
-        return questionEditingService.addQuestionByButton(button, question, answers, checkbox_option);
+
+        questionEditingService.addQuestionByButton(button, question, answers, checkbox_option);
+        return "CreateQuestion";
     }
+
+
 
 
 }

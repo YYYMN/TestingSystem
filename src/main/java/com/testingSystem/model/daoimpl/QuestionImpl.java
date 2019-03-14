@@ -25,10 +25,16 @@ public class QuestionImpl implements QuestionDao {
         return jdbcTemplate.query(SQL_GET_ALL_QUESTIONS_BY_TESTID,new Object[] {testId}, new QuestionMapper());
     }
 
-    public void addQuestionToDb(Question question) {
+    public void addQuestionToDb(String question) {
         String SQL_ADD_QUESTION_TO_DB = "insert into question (description) values(?)";
-        jdbcTemplate.update(SQL_ADD_QUESTION_TO_DB, question.getDescription());
+        jdbcTemplate.update(SQL_ADD_QUESTION_TO_DB, question);
 
+    }
+
+    @Override
+    public Question getQuestionByDescription(String question) {
+        String SQL_GET_QUESTION_BY_DESCRIPTION = "select * from question where question.description='"+question+"'";
+        return jdbcTemplate.queryForObject(SQL_GET_QUESTION_BY_DESCRIPTION, new QuestionMapper());
     }
 
     public List<Question> getAllQuestions() {

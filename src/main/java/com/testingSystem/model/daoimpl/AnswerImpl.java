@@ -29,26 +29,43 @@ public class AnswerImpl implements AnswerDao {
         return jdbcTemplate.query(SQL_GET_ALL_ANSWERS, new AnswerMapper());
     }
 
+    @Override
+    public List<Answer> getAnswersByQuestionId(int questionId) {
+        String SQL_GET_ANSWERS_BY_QUESTION_ID =  "select * from testingsystem.answer where answer.questionId = '" +questionId+"'";
+        return jdbcTemplate.query(SQL_GET_ANSWERS_BY_QUESTION_ID, new AnswerMapper());
+    }
 
+    @Override
+    public void deleteAnswerFromDb(String answer) {
+        String SQL_DELETE_ANSWER_FROM_DB =  "delete from testingsystem.answer where answer.description = '" +answer+"'";
+        jdbcTemplate.update(SQL_DELETE_ANSWER_FROM_DB);
+    }
 
     @Override
     public void addAnswersToDb(String[] answers, String question, String[] checkbox_option) {
         String SQL_FIND_QUESTION_ID = "select questionId from question where question.description='"+question+"'";
-        int questionId = jdbcTemplate.queryForObject(SQL_FIND_QUESTION_ID, Integer.class);
+        try {
+            int questionId = jdbcTemplate.queryForObject(SQL_FIND_QUESTION_ID, Integer.class);
+            List<Integer> correctList = new ArrayList<>();
+            int corr;
+            for(String correct : checkbox_option){
+                if (correct.equals("true")){
+                    corr = 1;
+                }else corr = 0;
+                correctList.add(corr);
+            }
 
-        List<Integer> correctList = new ArrayList<>();
-        int corr;
-        for(String correct : checkbox_option){
-            if (correct.equals("true")){
-                corr = 1;
-            }else corr = 0;
-            correctList.add(corr);
+            String SQL_ADD_ANSWER_TO_DB = "insert into answer (description,questionId,correct) values(?,?,?)";
+            for (int i = 0; i < answers.length; i++){
+                jdbcTemplate.update(SQL_ADD_ANSWER_TO_DB, answers[i], questionId, correctList.get(i));
+            }
+            questionId = 0;
+        }catch (NullPointerException e){
+           e.printStackTrace();
         }
 
-        String SQL_ADD_ANSWER_TO_DB = "insert into answer (description,questionId,correct) values(?,?,?)";
-        for (int i = 0; i < answers.length; i++){
-            jdbcTemplate.update(SQL_ADD_ANSWER_TO_DB, answers[i], questionId, correctList.get(i));
-        }
+
+
 
     }
 }

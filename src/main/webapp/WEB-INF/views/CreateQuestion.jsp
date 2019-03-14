@@ -18,14 +18,13 @@
         </div>
         <div class="CreateQuestionPage" align="center">
             <form method="post" action="">
-                <label>
-                    <select>
+                <input list="questions" placeholder = "Введите новый вопрос" id="question" name="question">
+                    <datalist id="questions" >
                         <c:forEach var="question" items="${questions}">
                             <option>${question.description}</option>
                         </c:forEach>
-                    </select>
-                </label><br>
-                <input type="text" name="question" placeholder = "Введите новый вопрос"><br>
+                    </datalist>
+                <br>
                 <div id="dynamic_field"></div>
                 <button type="button" name="add" id="add" class="btn btn-success">Добавить ответ</button>
                 <button id="updateQuestion" name="btn" value="save" type="submit" >Сохранить</button>
@@ -37,10 +36,41 @@
 
 <script>
     $(document).ready(function(){
+
+
+
+
+
         var i=1;
+
+        $(document).on('input','#question', function (ev) {
+            $.ajax({
+                type : "POST",
+                url : '/DisplayQuestionsFromDb',
+                data : {
+                    targetQuestion : $(ev.target).val()
+                },
+                success : function (data) {
+                    for (var j = 0; j < data.length ; j++) {
+                        $('#dynamic_field').append('<div class="div'+i+'">' +
+                            '<input type="text" name="answer[]" id="answer' + i + '" value="'+data[j].description+'">' +
+                            '<input type="hidden" name="checkbox_option" class="checkbox'+i+'" value="false"">');
+                        if (data[j].correct == 1){
+                            var checked = "checked";
+                            $('.div'+i+'').append('<input type="checkbox" class="checkbox'+i+'" data-correct="0" name="checkbox" value="false"'+checked+'>');
+                        } else if (data[j].correct == 0){
+                            $('.div'+i+'').append('<input type="checkbox" class="checkbox'+i+'" data-correct="0" name="checkbox" value="false">');
+                        }
+                        $('.div'+i+'').append('<button type="button" name="'+i+'" id="remove" class="btn btn-success">Удалить</button><br></div>');
+                        i++;
+                    }
+                }
+            })
+        });
+
         $(document).on('click','#add',function(){
-            $('#dynamic_field').append('<div class="div' + i + '">' +
-                                       '<input type="text" name="answer[]" id="answer' + i + ' " placeholder ="' + i + '. Ответ">' +
+            $('#dynamic_field').append('<div class="div'+i+'">' +
+                                       '<input type="text" name="answer[]" id="answer' + i + '" placeholder ="Ответ">' +
                                        '<input type="hidden" name="checkbox_option" class="checkbox'+i+'" value="false">'+
                                        '<input type="checkbox" class="checkbox'+i+'" data-correct="0" name="checkbox" value="false">'+
                                        '<button type="button" name="'+i+'" id="remove" class="btn btn-success">Удалить</button><br></div>');
@@ -48,11 +78,20 @@
         });
 
         $(document).on('click','#remove', function (){
-            var div_id = $(this).attr("name");
-            $('#div'+div_id+'').remove();
+            var div_id = $(this).attr('name');
+            $.ajax({
+                type : "POST",
+                url : '/DeleteAnswerFromDb',
+                data : {
+                    targetAnswer: $('#answer' + div_id + '').attr('value')
+                }
+
+            });
+            $('.div'+div_id+'').remove();
+
         });
 
-        $(document).ready().on('click','[class^="checkbox"]', function () {
+        $(document).on('click','[class^="checkbox"]', function () {
             var d = document,
                 inp = d.getElementsByName('checkbox_option'),
                 mas = [];
