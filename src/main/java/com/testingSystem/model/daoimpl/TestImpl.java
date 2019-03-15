@@ -25,4 +25,15 @@ public class TestImpl implements TestDao {
         String SQL_GET_ALL_TESTS = "select * from testingsystem.test";
         return jdbcTemplate.query(SQL_GET_ALL_TESTS, new TestMapper());
     }
+
+    public List<Test> getAllTestsByTopicId(int topicId) {
+        String SQL_GET_ALL_TESTS = "select * from testingsystem.test where topicId = '"+topicId+"'";
+        return jdbcTemplate.query(SQL_GET_ALL_TESTS, new TestMapper());
+    }
+
+    @Override
+    public Test getTestByDescription(String test) {
+        String SQL_GET_TEST_BY_DESCRIPTION = "select * from testingsystem.test where description ='"+test+"'";
+        return jdbcTemplate.queryForObject(SQL_GET_TEST_BY_DESCRIPTION, new TestMapper());
+    }
 }

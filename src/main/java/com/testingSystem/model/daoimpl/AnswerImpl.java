@@ -7,10 +7,13 @@ import com.testingSystem.model.mapper.AnswerMapper;
 import com.testingSystem.model.mapper.QuestionMapper;
 import com.testingSystem.spring.config.AppConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -44,7 +47,7 @@ public class AnswerImpl implements AnswerDao {
     @Override
     public void addAnswersToDb(String[] answers, String question, String[] checkbox_option) {
         String SQL_FIND_QUESTION_ID = "select questionId from question where question.description='"+question+"'";
-        try {
+
             int questionId = jdbcTemplate.queryForObject(SQL_FIND_QUESTION_ID, Integer.class);
             List<Integer> correctList = new ArrayList<>();
             int corr;
@@ -54,15 +57,16 @@ public class AnswerImpl implements AnswerDao {
                 }else corr = 0;
                 correctList.add(corr);
             }
-
-            String SQL_ADD_ANSWER_TO_DB = "insert into answer (description,questionId,correct) values(?,?,?)";
-            for (int i = 0; i < answers.length; i++){
-                jdbcTemplate.update(SQL_ADD_ANSWER_TO_DB, answers[i], questionId, correctList.get(i));
+            for(String answer: answers){
+                String SQL_CHECK_IF_ANSWER_EXIST = "SELECT count(answerId) FROM answer WHERE description='"+answer+"'";
+                int exist = jdbcTemplate.queryForObject(SQL_CHECK_IF_ANSWER_EXIST, Integer.class);
+                if (exist == 0){
+                    String SQL_ADD_ANSWER_TO_DB = "insert into answer (description,questionId,correct) values(?,?,?)";
+                    jdbcTemplate.update(SQL_ADD_ANSWER_TO_DB, answer, questionId, correctList.get(Arrays.asList(answers).indexOf(answer)));
+                }
             }
-            questionId = 0;
-        }catch (NullPointerException e){
-           e.printStackTrace();
-        }
+
+
 
 
 

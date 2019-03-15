@@ -1,24 +1,18 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Sitx
-  Date: 01.03.2019
-  Time: 12:03
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
         <meta charset="utf-8">
         <title>CreateQuestion</title>
+        <link rel="stylesheet" href="http://localhost:8081/css/CreateQuestionPageStyle.css">
     </head>
     <body>
         <div class="picture">
             <p><img src="<c:url value="/images/picture.png"/>" width="230" alt="Тут должен быть рисунок"></p>
         </div>
-        <div class="CreateQuestionPage" align="center">
+        <div class="CreateQuestionPage" >
             <form method="post" action="">
-                <input list="questions" placeholder = "Введите новый вопрос" id="question" name="question">
+                <input list="questions" placeholder = "Введите новый вопрос" id="question" name="question" autocomplete="off">
                     <datalist id="questions" >
                         <c:forEach var="question" items="${questions}">
                             <option>${question.description}</option>
@@ -26,8 +20,8 @@
                     </datalist>
                 <br>
                 <div id="dynamic_field"></div>
-                <button type="button" name="add" id="add" class="btn btn-success">Добавить ответ</button>
-                <button id="updateQuestion" name="btn" value="save" type="submit" >Сохранить</button>
+                <button type="button" name="add" id="add" class="button">Добавить ответ</button>
+                <button id="updateQuestion" name="save" value="save" type="submit" class="button" >Сохранить</button>
             </form>
         </div>
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
@@ -36,13 +30,7 @@
 
 <script>
     $(document).ready(function(){
-
-
-
-
-
         var i=1;
-
         $(document).on('input','#question', function (ev) {
             $.ajax({
                 type : "POST",
@@ -56,8 +44,8 @@
                             '<input type="text" name="answer[]" id="answer' + i + '" value="'+data[j].description+'">' +
                             '<input type="hidden" name="checkbox_option" class="checkbox'+i+'" value="false"">');
                         if (data[j].correct == 1){
-                            var checked = "checked";
-                            $('.div'+i+'').append('<input type="checkbox" class="checkbox'+i+'" data-correct="0" name="checkbox" value="false"'+checked+'>');
+                            // var checked = "checked";
+                            $('.div'+i+'').append('<input type="checkbox" class="checkbox'+i+'" data-correct="0" name="checkbox" value="false" checked>');
                         } else if (data[j].correct == 0){
                             $('.div'+i+'').append('<input type="checkbox" class="checkbox'+i+'" data-correct="0" name="checkbox" value="false">');
                         }

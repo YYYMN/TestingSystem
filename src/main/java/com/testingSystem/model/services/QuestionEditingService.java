@@ -21,10 +21,8 @@ public class QuestionEditingService {
         this.answerImpl = answerImpl;
     }
 
-    public void addQuestionByButton(String button, String question, String[] answers, String[] checkbox_option) {
-        if ("save".equals(button)) {
+    public void addQuestionAndAnswersToDb(String question, String[] answers, String[] checkbox_option) {
             questionImpl.addQuestionToDb(question);
             answerImpl.addAnswersToDb(answers, question, checkbox_option);
-        }
     }
 }

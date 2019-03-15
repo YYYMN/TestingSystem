@@ -34,4 +34,14 @@ public class TopicImpl implements TopicDao {
     public Topic getTopicById(Integer id) {
         return null;
     }
+
+    public Topic getTopicByDescription(String topic) {
+        String SQL_GET_TOPIC_BY_DESCRIPTION = "select * from testingsystem.topic where description ='"+topic+"'";
+        return jdbcTemplate.queryForObject(SQL_GET_TOPIC_BY_DESCRIPTION, new TopicMapper());
+    }
+
+    public void addTopicToDb(String topic) {
+        String SQL_ADD_TOPIC_TO_DB = "insert into topic (description) values(?)";
+        jdbcTemplate.update(SQL_ADD_TOPIC_TO_DB, topic);
+    }
 }

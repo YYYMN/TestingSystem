@@ -14,6 +14,7 @@ import java.util.List;
 public class QuestionImpl implements QuestionDao {
 
     private JdbcTemplate jdbcTemplate;
+    private QuestionImpl questionImpl;
 
     @Autowired
     public QuestionImpl(AppConfig config) {
@@ -26,8 +27,13 @@ public class QuestionImpl implements QuestionDao {
     }
 
     public void addQuestionToDb(String question) {
-        String SQL_ADD_QUESTION_TO_DB = "insert into question (description) values(?)";
-        jdbcTemplate.update(SQL_ADD_QUESTION_TO_DB, question);
+        String SQL_CHECK_IF_QUESTION_EXIST = "SELECT Count(questionId) FROM question WHERE description='"+question+"'";
+        int exist = jdbcTemplate.queryForObject(SQL_CHECK_IF_QUESTION_EXIST, Integer.class);
+        if (exist == 0){
+            String SQL_ADD_QUESTION_TO_DB = "insert into question (description) values(?)";
+            jdbcTemplate.update(SQL_ADD_QUESTION_TO_DB, question);
+        }
+
 
     }
 
