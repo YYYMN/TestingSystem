@@ -8,7 +8,7 @@
 <body>
 <div align="center">
     <h1>Таблица с информацией о вопросах</h1>
-    <table border="1">
+    <table border="1" class="info">
         <th>№</th>
         <th>Название вопроса</th>
         <th>Пройдено всего раз</th>

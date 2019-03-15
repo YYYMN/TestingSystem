@@ -1,46 +1,54 @@
 package com.testingSystem.model.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Role {
     private int roleId;
     private int admin;
     private int tutor;
     private int user;
 
-    /**
-     * @param role Статический мотед класса принимает экземпляр этого класса
-     * @return вернёт строковое представление сущности. (Admin, Tutor или User)
-     */
-    public static String getRole(Role role){
-        String roleString = null;
-        int admin = role.getAdmin();
-        int tutor = role.getTutor();
-        int user = role.getUser();
+    public static String[] allRoles = {"Admin","Tutor","User"};
 
-        if (admin == 1 && tutor == 0 && user == 0 ){ roleString = "Admin"; }
-        else if (admin == 0 && tutor == 1 && user == 0 ){ roleString = "Tutor"; }
-        else if (admin == 0 && tutor == 0 && user == 1 ){ roleString = "User";  }
-        return roleString;
+    /**
+     * @param userRoles Статический мотед класса принимает строку,
+     * содержащую все роли у пользователя, которого надо сохранить.
+     * @return Возвращает массив объектов . будет использоваться
+     * в RoleImpl в метододе getRoleId(... )
+     */
+    public static Object[] getRoleData(String[] userRoles){
+        Object[] roleData = {0,0,0};
+
+        String admin = "Admin";
+        String tutor = "Tutor";
+        String user = "User";
+
+        for (int i = 0; i <= userRoles.length - 1; i++) {
+
+            if (admin.equalsIgnoreCase(userRoles[i])) { roleData[0] = 1; }
+            else if (tutor.equalsIgnoreCase(userRoles[i])) { roleData[1] = 1; }
+            else if (user.equalsIgnoreCase(userRoles[i])){roleData[2] = 1; }
+
+        }
+
+        return roleData;
     }
 
     /**
-     * @param role Статический мотед класса принимает экземпляр этого класса
-     * @return Возвращает массив объектов типа int. будет использоваться
-     * в RoleImpl в метододе getRoleId(... )
+     * @return вернёт строковое представление сущности, а именно список ролей. (Admin, Tutor или User)
      */
-    public static Object[] getRoleData(String role){
-        Object[] roles = null;
-        switch (role) {
-            case "Admin":
-                roles = new Object[]{1, 0, 0};
-                break;
-            case "Tutor":
-                roles = new Object[]{0, 1, 0};
-                break;
-            case "User":
-                roles = new Object[]{0, 0, 1};
-                break;
-        }
-        return roles;
+    public  List<String> getRolesList(){
+
+        List<String> rolesStringList = new ArrayList<>();
+        int admin = this.getAdmin();
+        int tutor = this.getTutor();
+        int user = this.getUser();
+
+        if (admin == 1){ rolesStringList.add("Admin"); }
+        if (tutor == 1){ rolesStringList.add("Tutor"); }
+        if (user == 1 ){ rolesStringList.add("User");  }
+        return rolesStringList;
     }
 
     public Role() {
@@ -84,8 +92,4 @@ public class Role {
         this.roleId = roleId;
     }
 
-    @Override
-    public String toString() {
-        return Role.getRole(this);
-    }
 }
