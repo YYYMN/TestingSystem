@@ -12,14 +12,6 @@ public class User {
     private int roleId;
     private String[] roles;
 
-    public String[] getRoles() {
-        return roles;
-    }
-
-    public void setRoles(String[] roles) {
-        this.roles = roles;
-    }
-
     public User() {
     }
 
@@ -60,6 +52,10 @@ public class User {
         return roleId;
     }
 
+    public String[] getRoles() {
+        return roles;
+    }
+
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
@@ -86,6 +82,10 @@ public class User {
 
     public void setRole(int roleId) {
         this.roleId = roleId;
+    }
+
+    public void setRoles(String[] roles) {
+        this.roles = roles;
     }
 
     @Override
