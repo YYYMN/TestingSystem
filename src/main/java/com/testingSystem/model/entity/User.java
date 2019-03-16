@@ -1,5 +1,7 @@
 package com.testingSystem.model.entity;
 
+import java.util.List;
+
 public class User {
     private int userId;
     private String lastName;
@@ -8,6 +10,7 @@ public class User {
     private String login;
     private String email;
     private int roleId;
+    private String[] roles;
 
     public User() {
     }
@@ -49,6 +52,10 @@ public class User {
         return roleId;
     }
 
+    public String[] getRoles() {
+        return roles;
+    }
+
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
@@ -75,6 +82,10 @@ public class User {
 
     public void setRole(int roleId) {
         this.roleId = roleId;
+    }
+
+    public void setRoles(String[] roles) {
+        this.roles = roles;
     }
 
     @Override

@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
         <title>CreateQuestion</title>
-        <link rel="stylesheet" href="http://localhost:8081/css/CreateQuestionPageStyle.css">
+        <link rel="stylesheet" href="http://localhost:8080/css/CreateQuestionPageStyle.css">
     </head>
     <body>
         <div class="picture">
@@ -30,10 +30,11 @@
 
 <script>
     $(document).ready(function(){
-        var i=1;
+        var i = 1;
         $(document).on('input','#question', function (ev) {
+            if( $(ev.target).val() == "") {$('#dynamic_field').empty()}
             $.ajax({
-                type : "POST",
+                type : "GET",
                 url : '/DisplayQuestionsFromDb',
                 data : {
                     targetQuestion : $(ev.target).val()
@@ -49,7 +50,7 @@
                         } else if (data[j].correct == 0){
                             $('.div'+i+'').append('<input type="checkbox" class="checkbox'+i+'" data-correct="0" name="checkbox" value="false">');
                         }
-                        $('.div'+i+'').append('<button type="button" name="'+i+'" id="remove" class="btn btn-success">Удалить</button><br></div>');
+                        $('.div'+i+'').append('<button type="button" name="'+i+'" id="remove" class="remove">Удалить</button><br></div>');
                         i++;
                     }
                 }
@@ -61,7 +62,7 @@
                                        '<input type="text" name="answer[]" id="answer' + i + '" placeholder ="Ответ">' +
                                        '<input type="hidden" name="checkbox_option" class="checkbox'+i+'" value="false">'+
                                        '<input type="checkbox" class="checkbox'+i+'" data-correct="0" name="checkbox" value="false">'+
-                                       '<button type="button" name="'+i+'" id="remove" class="btn btn-success">Удалить</button><br></div>');
+                                       '<button type="button" name="'+i+'" id="remove" class="remove">Удалить</button><br></div>');
             i++;
         });
 

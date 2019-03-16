@@ -21,18 +21,18 @@ public class RoleImpl implements RoleDao {
         jdbcTemplate = new JdbcTemplate(config.dataSource());
     }
 
-    @Override
-    public List<String> getRolesStringList() {
+/*    @Override
+    public List<String> getRolesStringList(Role role) {
         String SQL_GET_ALL_ROLES = "select * from testingsystem.role";
         List<Role> roleList = jdbcTemplate.query(SQL_GET_ALL_ROLES,new RoleMapper());
         List<String> rolesStringList = new ArrayList<>();
-        roleList.forEach(role -> rolesStringList.add(Role.getRole(role)));
+        roleList.forEach(role -> rolesStringList.add(Role.getRolesList()));
         return rolesStringList;
-    }
+    }*/
 
     @Override
-    public Integer getRoleId(String role){
+    public Integer getRoleId(String[] userRoles){
         String SQL_GET_ROLE_ID = "select roleId from testingsystem.role where admin = ? and tutor = ? and user = ?";
-        return jdbcTemplate.queryForObject(SQL_GET_ROLE_ID,Integer.class,Role.getRoleData(role));
+        return jdbcTemplate.queryForObject(SQL_GET_ROLE_ID,Integer.class,Role.getRoleData(userRoles));
     }
 }
