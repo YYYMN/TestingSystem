@@ -1,0 +1,47 @@
+a.button{
+    color: white; /* цвет текста */
+    text-decoration: none; /* убирать подчёркивание у ссылок */
+    font-size: 110%;
+    user-select: none; /* убирать выделение текста */
+    background: rgb(50, 50, 240); /* фон кнопки */
+    padding: .3em 3em; /* отступ от текста */
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+}
+a.button:hover {
+    background: rgb(50, 50, 180);
+} /* при наведении курсора мышки */
+a.button:active {
+    background: rgb(40, 40, 140);
+} /* при нажатии */
+
+a.edit{
+    color: white; /* цвет текста */
+    text-decoration: none; /* убирать подчёркивание у ссылок */
+    user-select: none; /* убирать выделение текста */
+    background: rgb(50, 220, 50); /* фон кнопки */
+    padding: 0.0em 0.5em; /* отступ от текста */
+    border-radius: 10px;
+}
+
+a.delete{
+    color: white; /* цвет текста */
+    text-decoration: none; /* убирать подчёркивание у ссылок */
+    user-select: none; /* убирать выделение текста */
+    background: rgb(220, 50, 50); /* фон кнопки */
+    padding: 0.0em 2.0em; /* отступ от текста */
+    border-radius: 10px;
+}
+
+a.edit:hover{
+    background: rgb(50, 180, 50);
+}
+a.edit:active{
+    background: rgb(40, 140, 40);
+}
+a.delete:hover{
+    background: rgb(180, 50, 50);
+}
+a.delete:active{
+    background: rgb(140, 40, 40);
+}

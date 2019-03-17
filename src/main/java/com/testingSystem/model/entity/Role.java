@@ -38,16 +38,21 @@ public class Role {
     /**
      * @return вернёт строковое представление сущности, а именно список ролей. (Admin, Tutor или User)
      */
-    public  List<String> getRolesList(){
+    public  String[] getRoles(){
 
-        List<String> rolesStringList = new ArrayList<>();
+        String[] rolesStringList = null;
         int admin = this.getAdmin();
         int tutor = this.getTutor();
         int user = this.getUser();
 
-        if (admin == 1){ rolesStringList.add("Admin"); }
-        if (tutor == 1){ rolesStringList.add("Tutor"); }
-        if (user == 1 ){ rolesStringList.add("User");  }
+        if (admin ==  1 && tutor == 0 && user == 0){ rolesStringList = new String[]{"Admin"}; }
+        else if (admin ==  0 && tutor == 1 && user == 0){ rolesStringList = new String[]{"Tutor"}; }
+        else if (admin ==  0 && tutor == 0 && user == 1){ rolesStringList = new String[]{"User"}; }
+        else if (admin ==  1 && tutor == 1 && user == 0){ rolesStringList = new String[]{"Admin","Tutor"}; }
+        else if (admin ==  0 && tutor == 1 && user == 1){ rolesStringList = new String[]{"Tutor","User"}; }
+        else if (admin ==  1 && tutor == 0 && user == 1){ rolesStringList = new String[]{"Admin","User"}; }
+        else if (admin ==  1 && tutor == 1 && user == 1){ rolesStringList = new String[]{"Admin","Tutor","User"}; }
+
         return rolesStringList;
     }
 

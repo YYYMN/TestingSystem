@@ -80,7 +80,7 @@ public class User {
         this.email = email;
     }
 
-    public void setRole(int roleId) {
+    public void setRoleId(int roleId) {
         this.roleId = roleId;
     }
 
