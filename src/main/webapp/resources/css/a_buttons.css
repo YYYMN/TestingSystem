@@ -45,3 +45,18 @@ a.delete:hover{
 a.delete:active{
     background: rgb(140, 40, 40);
 }
+a.showProgress{
+    color: black; /* цвет текста */
+    text-decoration: none; /* убирать подчёркивание у ссылок */
+    user-select: none; /* убирать выделение текста */
+    background: rgb(250, 150,0); /* фон кнопки */
+    padding: 0.0em 2.0em; /* отступ от текста */
+    border-radius: 10px;
+}
+
+a.showProgress:hover{
+    background: rgb(230, 130, 0);
+}
+a.showProgress:active{
+    background: rgb(210, 110, 40);
+}

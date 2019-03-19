@@ -49,8 +49,6 @@ public class UserImpl implements UserDao {
                 " user.login = ?, user.password = ?, user.email = ?, user.roleId = ? " +
                 "  WHERE user.userId = ?";
 
-        System.out.println(user.getUserId());
-
         jdbcTemplate.update(SQL_UPDATE_USER,
                 user.getLastName(),user.getFirstName(),user.getLogin(),
                 user.getPassword(),user.getEmail(),user.getRoleId(),

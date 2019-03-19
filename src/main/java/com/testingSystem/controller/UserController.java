@@ -3,6 +3,7 @@ package com.testingSystem.controller;
 import com.testingSystem.model.entity.Role;
 import com.testingSystem.model.entity.User;
 import com.testingSystem.model.services.CreatingAndEditingUsersService;
+import com.testingSystem.model.services.UserProgressGridService;
 import com.testingSystem.model.services.UserStatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,17 +14,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class UserController {
 
     private UserStatisticService userStatisticService;
     private CreatingAndEditingUsersService creatingAndEditingUsersService;
+    private UserProgressGridService userProgressGridService;
 
     @Autowired
-    public UserController(UserStatisticService userStatisticService, CreatingAndEditingUsersService creatingAndEditingUsersService) {
+    public UserController(UserStatisticService userStatisticService, CreatingAndEditingUsersService creatingAndEditingUsersService, UserProgressGridService userProgressGridService) {
         this.userStatisticService = userStatisticService;
         this.creatingAndEditingUsersService = creatingAndEditingUsersService;
+        this.userProgressGridService = userProgressGridService;
     }
 
     @GetMapping("/UsersInfo")
@@ -95,4 +99,25 @@ public class UserController {
         //return "redirect: /TableOfUsersForEditing"  // не помогло
         return new ModelAndView("redirect: /TableOfUsersForEditing");
     }
+
+    @GetMapping("/TableOfUsersForWatchingGrid")
+    public String getTableOfUsersForWatchingGrid(Model model){
+        model.addAttribute("usersList", userProgressGridService.getAllUsers());
+        return "TableOfUsersForWatchingGrid";
+    }
+
+    @GetMapping("/UserForWatchingGrid")
+    public String getUserForWatchingGrid(HttpServletRequest request, Model model){
+
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        String userLastName = request.getParameter("userLastName");
+        String userFirstName = request.getParameter("userFirstName");
+        List<UserProgressGridService.UserGrid> userProgressGridList = userProgressGridService.getUserProgressGrid(userId);
+
+        model.addAttribute("progressGridList",userProgressGridList);
+        model.addAttribute("userLastAndFirstName",userLastName + " " + userFirstName);
+
+        return "UserGridProgress";
+    }
+
 }

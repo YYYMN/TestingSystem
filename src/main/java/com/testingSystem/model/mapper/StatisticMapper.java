@@ -14,8 +14,9 @@ public class StatisticMapper implements RowMapper<Statistic> {
         statistic.setStatisticId(resultSet.getInt("statisticId"));
         statistic.setQuestionId(resultSet.getInt("questionId"));
         statistic.setUserId(resultSet.getInt("userId"));
-        statistic.setCorrect(resultSet.getBoolean("correct"));
+        statistic.setCorrect(resultSet.getInt("correct") == 1);
         statistic.setDate(resultSet.getDate("data"));
+        statistic.setTestId(resultSet.getInt("testId"));
         return statistic;
     }
 }

@@ -12,7 +12,6 @@ public class QuestionMapper implements RowMapper<Question> {
     public Question mapRow(ResultSet resultSet, int i) throws SQLException {
         Question question = new Question();
         question.setQuestionId(resultSet.getInt("questionId"));
-        question.setTestId(resultSet.getInt("testId"));
         question.setDescription(resultSet.getString("description"));
         return question;
     }

@@ -8,16 +8,18 @@ public class Statistic {
     private boolean correct;
     private Integer questionId;
     private Integer userId;
+    private Integer testId;
 
     public Statistic(){
 
     }
 
-    public Statistic(Date date, boolean correct, Integer questionId, Integer userId) {
+    public Statistic(Date date, boolean correct, Integer questionId, Integer userId, Integer testId) {
         this.date = date;
         this.correct = correct;
         this.questionId = questionId;
         this.userId = userId;
+        this.testId = testId;
     }
 
     public Integer getStatisticId() {
@@ -40,6 +42,10 @@ public class Statistic {
         return userId;
     }
 
+    public Integer getTestId() {
+        return testId;
+    }
+
     public void setStatisticId(Integer statisticId) {
         this.statisticId = statisticId;
     }
@@ -58,5 +64,9 @@ public class Statistic {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public void setTestId(Integer testId) {
+        this.testId = testId;
     }
 }
