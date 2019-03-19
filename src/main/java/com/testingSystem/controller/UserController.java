@@ -21,13 +21,12 @@ public class UserController {
 
     private UserStatisticService userStatisticService;
     private CreatingAndEditingUsersService creatingAndEditingUsersService;
-    private UserProgressGridService userProgressGridService;
+
 
     @Autowired
-    public UserController(UserStatisticService userStatisticService, CreatingAndEditingUsersService creatingAndEditingUsersService, UserProgressGridService userProgressGridService) {
+    public UserController(UserStatisticService userStatisticService, CreatingAndEditingUsersService creatingAndEditingUsersService) {
         this.userStatisticService = userStatisticService;
         this.creatingAndEditingUsersService = creatingAndEditingUsersService;
-        this.userProgressGridService = userProgressGridService;
     }
 
     @GetMapping("/UsersInfo")
@@ -98,26 +97,6 @@ public class UserController {
 
         //return "redirect: /TableOfUsersForEditing"  // не помогло
         return new ModelAndView("redirect: /TableOfUsersForEditing");
-    }
-
-    @GetMapping("/TableOfUsersForWatchingGrid")
-    public String getTableOfUsersForWatchingGrid(Model model){
-        model.addAttribute("usersList", userProgressGridService.getAllUsers());
-        return "TableOfUsersForWatchingGrid";
-    }
-
-    @GetMapping("/UserForWatchingGrid")
-    public String getUserForWatchingGrid(HttpServletRequest request, Model model){
-
-        int userId = Integer.parseInt(request.getParameter("userId"));
-        String userLastName = request.getParameter("userLastName");
-        String userFirstName = request.getParameter("userFirstName");
-        List<UserProgressGridService.UserGrid> userProgressGridList = userProgressGridService.getUserProgressGrid(userId);
-
-        model.addAttribute("progressGridList",userProgressGridList);
-        model.addAttribute("userLastAndFirstName",userLastName + " " + userFirstName);
-
-        return "UserGridProgress";
     }
 
 }
