@@ -2,7 +2,7 @@ package com.testingSystem.controller;
 
 import com.testingSystem.model.daoimpl.AnswerImpl;
 import com.testingSystem.model.daoimpl.QuestionImpl;
-import com.testingSystem.model.services.QuestionEditingService;
+import com.testingSystem.model.services.QuestionAndTestService;
 import com.testingSystem.model.services.QuestionStatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,14 +15,14 @@ public class QuestionController {
     private QuestionStatisticService questionStatisticService;
     private QuestionImpl questionImpl;
     private AnswerImpl answerImpl;
-    private QuestionEditingService questionEditingService;
+    private QuestionAndTestService questionAndTestService;
 
     @Autowired
-    public QuestionController(QuestionStatisticService questionStatisticService, QuestionImpl questionImpl, AnswerImpl answerImpl, QuestionEditingService questionEditingService) {
+    public QuestionController(QuestionStatisticService questionStatisticService, QuestionImpl questionImpl, AnswerImpl answerImpl, QuestionAndTestService questionAndTestService) {
         this.questionStatisticService = questionStatisticService;
         this.questionImpl = questionImpl;
         this.answerImpl = answerImpl;
-        this.questionEditingService = questionEditingService;
+        this.questionAndTestService = questionAndTestService;
     }
 
     @GetMapping("/QuestionsInfo")
@@ -39,9 +39,9 @@ public class QuestionController {
 
     @PostMapping("/CreateQuestion")
     public String createQuestion(@RequestParam(name = "question", required = false) String question,
-                               @RequestParam(name = "answer[]", required = false) String[] answers,
-                               @RequestParam(name="checkbox_option", required = false) String[] checkbox_option, Model model) {
-        questionEditingService.addQuestionAndAnswersToDb(question, answers, checkbox_option);
+                                 @RequestParam(name = "answer[]", required = false) String[] answers,
+                                 @RequestParam(name="checkbox_option", required = false) String[] checkbox_option, Model model) {
+        questionAndTestService.addQuestionAndAnswersToDb(question, answers, checkbox_option);
         model.addAttribute("questions",questionImpl.getAllQuestions());
         return "CreateQuestion";
     }

@@ -4,6 +4,8 @@
     <head>
         <meta charset="utf-8">
         <title>CreateTest</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+        <script src="http://localhost:8083/scripts/CreateTest.js"></script>
     </head>
     <body>
         <div class="picture">
@@ -11,84 +13,29 @@
         </div>
         <div class="CreateTestPage" align="center">
             <form method="post" action="">
-                <label>
-                    <input list="topics" placeholder="Выберите тему" id="topic">
+                <input type="text"  required list="topics" placeholder="Выберите тему" id="topic" name="topic" autocomplete="off">
                     <datalist id="topics" >
                         <c:forEach var="topic" items="${topics}">
                             <option>${topic.description}</option>
                         </c:forEach>
                     </datalist>
-                </label><br>
+                <br>
                 <div class="tests"></div>
                 <div class="questions"></div>
+                <button id="add" value="add" type="button">Добавить</button>
                 <button id="save" value="save" type="submit" >Сохранить</button>
+                <p><a href="http://localhost:8083/CreateQuestion" target="_blank" class="button" title="Создать вопрос">Создать новый вопрос</a></p>
             </form>
         </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     </body>
 </html>
-
 <script>
-    $(document).ready(function(){
-
-        $(document).on('input','#topic', function (ev) {
-            if ($(ev.target).val() == "") {
-                $('.innerTestsDiv').remove();
-            }else {
-                $.ajax({
-                    type : "GET",
-                    url : "/GetTestsByTopic",
-                    data : {
-                        targetTopic : $(ev.target).val()
-                    },
-                    success : function (data) {
-                        $('.tests').append('<div class="innerTestsDiv"><input list="tests" placeholder="Выберите тест" id="test">' +
-                                           '<datalist id="tests" class="testsDatalist">');
-
-                        data.forEach(function(test) {
-                            $('.testsDatalist').append('<option>'+test.description+'</option>');
-                        });
-
-                        $('.tests').append('</datalist></div>');
-                    }
-                })
-            }
-
-        });
-
-        $(document).on('input','#test', function (ev) {
-            if ($(ev.target).val() == "") {
-                $('.innerQuestionsDiv').remove();
-            }else {
-                $.ajax({
-                    type : "GET",
-                    url : "/GetQuestionsByTest",
-                    data : {
-                        targetTest : $(ev.target).val()
-                    },
-                    success : function (data) {
-                        $('.questions').append('<div class="innerQuestionsDiv"><input list="questions" id="question" placeholder="Выберите вопрос"><br>' +
-                            '<datalist id="questions" class="questionsDatalist">');
-
-                        data.forEach(function(question) {
-                            $('.questionsDatalist').append('<option>'+question.description+'</option>');
-                        });
-
-                        $('.questions').append('</datalist></div>');
-                    }
-                })
-            }
-        });
-
-        $(document).on('input','#question', function (ev) {
-            $('.questions').append('<input list="questions" id="question" placeholder="Выберите вопрос"><br>');
-        });
-
-
-
-    })
-
-
-
-
+    function questionsToSelect(){
+        var questionsArray = ${JSONQuestions};
+        var questionDescription = '';
+        for (var j = 0; j < questionsArray.length; j++) {
+            questionDescription += '<option>'+questionsArray[j].description+'</option>';
+        }
+        return questionDescription;
+    }
 </script>

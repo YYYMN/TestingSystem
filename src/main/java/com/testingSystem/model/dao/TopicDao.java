@@ -8,5 +8,5 @@ public interface TopicDao {
     List<Topic> getAllTopics();
     Topic getTopicById(Integer topicId);
     Topic getTopicByDescription(String topic);
-    void addTopic(Topic topic);
+
 }

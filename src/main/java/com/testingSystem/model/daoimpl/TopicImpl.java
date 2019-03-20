@@ -40,8 +40,5 @@ public class TopicImpl implements TopicDao {
         return jdbcTemplate.queryForObject(SQL_GET_TOPIC_BY_DESCRIPTION, new TopicMapper());
     }
 
-    public void addTopicToDb(String topic) {
-        String SQL_ADD_TOPIC_TO_DB = "insert into topic (description) values(?)";
-        jdbcTemplate.update(SQL_ADD_TOPIC_TO_DB, topic);
-    }
+
 }

@@ -9,5 +9,6 @@ public interface QuestionDao {
     List<Question> getAllQuestionsByTestId(Integer testId);
     void addQuestionToDb(String question);
     Question getQuestionByDescription(String question);
-
+    List<Integer> getQuestionsIdByDescriptions(String[] questions);
+    void addQuestionsAndTestIdToQTConnection(List<Integer> questionsId, String test);
 }

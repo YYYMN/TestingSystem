@@ -8,8 +8,7 @@ import com.testingSystem.model.daoimpl.TopicImpl;
 import com.testingSystem.model.entity.Answer;
 import com.testingSystem.model.entity.Question;
 import com.testingSystem.model.entity.Test;
-import com.testingSystem.model.entity.Topic;
-import com.testingSystem.model.services.QuestionEditingService;
+import com.testingSystem.model.services.QuestionAndTestService;
 import com.testingSystem.model.services.QuestionStatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,14 +30,14 @@ public class AjaxController {
     private AnswerImpl answerImpl;
     private TestImpl testImpl;
     private TopicImpl topicImpl;
-    private QuestionEditingService questionEditingService;
+    private QuestionAndTestService questionAndTestService;
 
     @Autowired
-    public AjaxController(TopicImpl topicImpl, TestImpl testImpl, QuestionStatisticService questionStatisticService, QuestionImpl questionImpl, AnswerImpl answerImpl, QuestionEditingService questionEditingService) {
+    public AjaxController(TopicImpl topicImpl, TestImpl testImpl, QuestionStatisticService questionStatisticService, QuestionImpl questionImpl, AnswerImpl answerImpl, QuestionAndTestService questionAndTestService) {
         this.questionStatisticService = questionStatisticService;
         this.questionImpl = questionImpl;
         this.answerImpl = answerImpl;
-        this.questionEditingService = questionEditingService;
+        this.questionAndTestService = questionAndTestService;
         this.testImpl = testImpl;
         this.topicImpl = topicImpl;
     }
@@ -46,15 +45,13 @@ public class AjaxController {
     @RequestMapping(value = "/DisplayQuestionsFromDb", method = RequestMethod.GET)
     @ResponseBody
     public List<Answer> displayQuestionsFromDb(@RequestParam(name = "targetQuestion") String targetQuestion, Model model){
-        Question question = questionImpl.getQuestionByDescription(targetQuestion);
-        int questionId = question.getQuestionId();
-        List<Answer> answerList = answerImpl.getAnswersByQuestionId(questionId);
+        List<Answer> answerList = answerImpl.getAnswersByQuestionId(questionImpl.getQuestionByDescription(targetQuestion).getQuestionId());
         String description;
         List<String> answersDescription = new ArrayList<>();
         for(Answer answer : answerList){
             description = answer.getDescription();
-            answersDescription.add(description);        }
-
+            answersDescription.add(description);
+        }
         model.addAttribute("answersDescription", answersDescription);
         return answerList;
     }
