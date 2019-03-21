@@ -3,7 +3,8 @@
 <html>
 <head>
     <title>Users Info</title>
-    <link rel="stylesheet" href="http://localhost:8080/css/style.css">
+    <link rel="stylesheet" href="http://localhost:8080/css/stylesForTables.css">
+    <link rel="stylesheet" href="http://localhost:8080/css/a_buttons.css">
 </head>
 <body>
 <div align="center">

@@ -36,7 +36,28 @@ public class UserImpl implements UserDao {
                 user.getRoleId());
     }
 
-    public User getUserById(Integer id) {
-        return null;
+    public User getUserByUserId(Integer userId) {
+
+        String SQL_GET_USER = "select * from testingsystem.user where userId = ?";
+        return jdbcTemplate.queryForObject(SQL_GET_USER,new UserMapper(),userId);
+    }
+
+
+    @Override
+    public void updateUser(User user) {
+        String SQL_UPDATE_USER = "UPDATE testingsystem.user set user.lastName = ?, user.firstName = ?," +
+                " user.login = ?, user.password = ?, user.email = ?, user.roleId = ? " +
+                "  WHERE user.userId = ?";
+
+        jdbcTemplate.update(SQL_UPDATE_USER,
+                user.getLastName(),user.getFirstName(),user.getLogin(),
+                user.getPassword(),user.getEmail(),user.getRoleId(),
+                user.getUserId());
+    }
+
+    @Override
+    public void deleteUserByUserId(Integer userId) {
+        String SQL_DELETE_USER = "delete from testingsystem.user where userId = ?";
+        jdbcTemplate.update(SQL_DELETE_USER,userId);
     }
 }

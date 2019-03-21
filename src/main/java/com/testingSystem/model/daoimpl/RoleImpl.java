@@ -31,8 +31,14 @@ public class RoleImpl implements RoleDao {
     }*/
 
     @Override
-    public Integer getRoleId(String[] userRoles){
-        String SQL_GET_ROLE_ID = "select roleId from testingsystem.role where admin = ? and tutor = ? and user = ?";
-        return jdbcTemplate.queryForObject(SQL_GET_ROLE_ID,Integer.class,Role.getRoleData(userRoles));
+    public Role getRoleByUserRoles(String[] userRoles){
+        String SQL_GET_ROLE_ID = "select * from testingsystem.role where admin = ? and tutor = ? and user = ?";
+        return jdbcTemplate.queryForObject(SQL_GET_ROLE_ID, new RoleMapper(), Role.getRoleData(userRoles));
+    }
+
+    @Override
+    public Role getRoleByRoleId(Integer roleId) {
+        String SQL_GET_ROLE_ID = "select * from testingsystem.role where roleId = ?";
+        return jdbcTemplate.queryForObject(SQL_GET_ROLE_ID, new RoleMapper(), roleId);
     }
 }

@@ -1,6 +1,6 @@
 package com.testingSystem.model.dao;
 
-import java.util.List;
+import com.testingSystem.model.entity.Role;
 
 public interface RoleDao {
 
@@ -15,5 +15,7 @@ public interface RoleDao {
      * там есть статический метод getRoleData(...), который будет применяться в этой ф-ции.
      * @return Id роли.
      */
-    Integer getRoleId(String[] userRoles);
+    Role getRoleByUserRoles(String[] userRoles);
+
+    Role getRoleByRoleId(Integer roleId);
 }

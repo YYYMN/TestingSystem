@@ -7,5 +7,7 @@ import com.testingSystem.model.entity.User;
 public interface UserDao {
     List<User> getAllUsers();
     void addUser(User user);
-    User getUserById(Integer id);
+    User getUserByUserId(Integer userId);
+    void updateUser(User user);
+    void deleteUserByUserId(Integer userId);
 }

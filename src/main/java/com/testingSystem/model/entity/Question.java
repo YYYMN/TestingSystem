@@ -28,5 +28,4 @@ public class Question {
         this.description = description;
     }
 
-
 }

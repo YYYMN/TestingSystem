@@ -6,19 +6,19 @@
 <head>
     <title>CreateUser</title>
     <link rel="stylesheet" href="http://localhost:8080/css/style.css">
+    <link rel="stylesheet" href="http://localhost:8080/css/a_buttons.css">
 </head>
 <body>
 <div class="picture">
     <p><img src="<c:url value="/images/picture.png"/>" width="230" alt="Тут должен быть рисунок"></p>
 </div>
 <div class="CreateUserPage" align="center">
-    <form:form method="post" action="/AddUser" modelAttribute="user">
+    <form:form method="post" action="/CreateUser" modelAttribute="user">
 
         <table>
-            <tr>
-                <td>Выберите роли для пользователя:</td><br>
-                <td> <form:checkboxes   path="roles" items="${allRoles}"/></td>
-            </tr>
+
+            <tr><td><a class="text">Выберите роли для пользователя:</a></td></tr>
+            <tr><td> <form:checkboxes   path="roles" items="${allRoles}"/></td></tr>
             <tr><td> <form:input path="lastName" placeholder="Фамилия" size="20" required="true"/></td></tr>
             <tr><td><form:input path="firstName" placeholder="Имя" size="20"  required="true"/></td></tr>
             <tr><td><form:password path="password" placeholder="Пароль" size="20"  required="true"/></td></tr>
@@ -29,16 +29,15 @@
 
         </table>
     </form:form>
-    <p><a href="http://localhost:8080/html/MainPage.html" class="button" title="Вернуться на главную страицу">Назад</a></p>
+    <p><a href="http://localhost:8080/html/CreatingAndEditingUsers.html" class="button" title="Вернуться на главную страицу">Назад</a></p>
+    <p id="success"><a style="color: green; font-size: 120%;" >${success}</a></p>
 </div>
-<div>${success}</div>
+
+<script>
+    setTimeout(function () {
+        document.getElementById("success").style.display = 'none';
+    },4000)
+</script>
+
 </body>
 </html>
-
-
-<%--
-<form:input path="lastName" placeholder="Фамилия" size="20" required="true"/><br>
-<form:input path="firstName" placeholder="Имя" size="20"  required="true"/><br>
-<form:password path="password" placeholder="Пароль" size="20"  required="true"/><br>
-<form:input path="login" placeholder="Логин" size="20"  required="true"/><br>
-<form:input type="email" path="email" placeholder="Почта" size="20"  required="true"/><br>--%>

@@ -13,30 +13,14 @@
     top: 70px;
     left: 450px;
 }
-a.text {
+a, label{
     text-decoration: none;
     color: rgb(50, 50, 230);
     font-size: 110%;
 }
-a.text:hover {
+a:hover {
     color: rgb(255, 150, 0);
 }
-a.button{
-    color: white; /* цвет текста */
-    text-decoration: none; /* убирать подчёркивание у ссылок */
-    font-size: 110%;
-    user-select: none; /* убирать выделение текста */
-    background: rgb(50, 50, 240); /* фон кнопки */
-    padding: .3em 3em; /* отступ от текста */
-    border-radius: 10px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.5);
-}
-a.button:hover {
-    background: rgb(50, 50, 180);
-} /* при наведении курсора мышки */
-a.button:active {
-    background: rgb(40, 40, 140);
-} /* при нажатии */
 input {
     width: 260px;
     height: 35px;
@@ -73,26 +57,5 @@ select {
     border-radius: 10px;
     border: 1px solid rgb(50, 50, 240);
 }
-table.info {
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    width: 50%;
-}
-table.info td, table.info th {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-}
 
-table.info tr:nth-child(even){background-color: #f2f2f2;}
-
-table.info tr:hover {background-color: #ddd;}
-
-table.info th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: center;
-    background-color: rgb(50, 50, 240);
-    color: white;
-}
 

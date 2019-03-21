@@ -21,7 +21,13 @@ public class StatisticImpl implements StatisticDao {
 
     @Override
     public List<Statistic> getAllStatisticByQuestionId(Integer questionId) {
-        String SQL_GET_ALL_STATISTICS_BY_QUESTINID = "select * from testingsystem.statistic where questionId = ?";
-        return jdbcTemplate.query(SQL_GET_ALL_STATISTICS_BY_QUESTINID,new Object[]{questionId}, new StatisticMapper());
+        String SQL_GET_ALL_STATISTICS_BY_QUESTION_ID = "select * from testingsystem.statistic where questionId = ?";
+        return jdbcTemplate.query(SQL_GET_ALL_STATISTICS_BY_QUESTION_ID, new StatisticMapper(),questionId);
+    }
+
+    @Override
+    public List<Statistic> getAllStatisticByUserId(Integer userId) {
+        String SQL_GET_ALL_STATISTICS_BY_USER_ID = "select * from testingsystem.statistic where userId = ?";
+        return jdbcTemplate.query(SQL_GET_ALL_STATISTICS_BY_USER_ID,new StatisticMapper(),userId);
     }
 }
