@@ -1,10 +1,8 @@
 package com.testingSystem.model.services;
 
-import com.testingSystem.model.dao.QuestionDao;
 import com.testingSystem.model.dao.StatisticDao;
 import com.testingSystem.model.dao.TestDao;
 import com.testingSystem.model.dao.UserDao;
-import com.testingSystem.model.entity.Question;
 import com.testingSystem.model.entity.Statistic;
 import com.testingSystem.model.entity.Test;
 import com.testingSystem.model.entity.User;
@@ -15,7 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class UserStatisticService {
+public class UserStatisticService implements CalculatePercentage {
 
      // Кастомный класс для вывода данных в JSP
     public static final class UserInfo{
@@ -58,100 +56,88 @@ public class UserStatisticService {
         }
     }
 
-    // Кастомный класс для хранения количества вопросов в тесте
-    private static final class CountQuestionsInTest{
-        private int count;
+    // Кастомный класс для хранения имени теста, количествапройденых раз и процента
+    private static final class TestNameCountPercent {
+        private String testName;
+        private Integer count;
+        private Integer percent;
 
-        CountQuestionsInTest(int count) {
+        TestNameCountPercent(String testName, Integer count, Integer percent) {
+            this.testName = testName;
             this.count = count;
+            this.percent = percent;
         }
 
-        int getCount() {
-            return count;
-        }
-
-        void setCount(int count) {
-            this.count = count;
+        String getTestName() {
+            return testName;
         }
     }
 
-    private QuestionDao questionDao;
     private StatisticDao statisticDao;
-    private TestDao testDao;
-    private UserDao userDao;
+    // карта хранит test_Id и testName. Чтобы много раз не обращаться к БД
+    private Map<Integer,String> mapTestIdName;
+    private Map<Integer,User> mapUserIdUser;
 
     @Autowired
-    public UserStatisticService(QuestionDao questionDao, StatisticDao statisticDao, TestDao testDao,UserDao userDao) {
-        this.questionDao = questionDao;
+    public UserStatisticService(StatisticDao statisticDao, TestDao testDao,UserDao userDao) {
         this.statisticDao = statisticDao;
-        this.testDao = testDao;
-        this.userDao = userDao;
+        this.mapTestIdName = testDao.getAllTests().stream()
+                .collect(Collectors.toMap(Test::getTestId,Test::getTestName));
+        this.mapUserIdUser = userDao.getAllUsers().stream()
+                .collect(Collectors.toMap(User::getUserId,user -> user));
     }
 
     // usersIdSet и List<Statistic>
-    private Map<Integer,List<Statistic>> getUsersIdMapWhoPassedTheTest(Integer testId, CountQuestionsInTest countQuestionsInTest){
-        List<Question> allQuestionsFromTest = questionDao.getAllQuestionsByTestId(testId);
+    private Map<String,TestNameCountPercent> getTestNameCountPercentMap(List<Statistic> statisticListOfOneUser){
+        // группируем статистику пользователя по testId
+        Map<Integer,List<Statistic>> statisticMapByTestId = statisticListOfOneUser.stream()
+                .collect(Collectors.groupingBy(Statistic::getTestId, HashMap::new, Collectors.toCollection(ArrayList::new)));
 
-        // Если на 1й вопрос из теста нет ни одного ответа, т.е вернулся пустой лист,
-        // значит и для всех отстальных вопросов не будет ответов в БД. Тест никто ни разу не проходил.
-        List<Statistic> statisticList = statisticDao.getAllStatisticByQuestionId(allQuestionsFromTest.get(0).getQuestionId());
-        if(!statisticList.isEmpty()){
-            // записать количество вопросов в тесте
-            countQuestionsInTest.setCount(allQuestionsFromTest.size());
+        List<TestNameCountPercent> testNameCountPercentList = new ArrayList<>();
+        int percent;
+        int count; // сколько раз был пройден тест
+        for (Integer testId : statisticMapByTestId.keySet()){
 
-            for (int i = 1; i < allQuestionsFromTest.size(); i++ ){
-                statisticList.addAll(statisticDao.getAllStatisticByQuestionId(allQuestionsFromTest.get(i).getQuestionId()));
-            }
-            // Если хоть кто-то из пользователей проходил тест, сгруппировать всю статистику по UserId
-            return statisticList.stream()
-                    .collect(Collectors.groupingBy(Statistic::getUserId));
-        }else {
-            return null;
+            List<Statistic> statisticListOfOneTest = statisticMapByTestId.get(testId);
+            percent = calculatePercentage(statisticListOfOneTest);
+            // пройден столько раз, сколько ответов есть на первую запись в этом листе
+            count = Collections.frequency(statisticListOfOneTest, statisticListOfOneTest.get(0));
+
+            testNameCountPercentList.add(new TestNameCountPercent(mapTestIdName.get(testId),count,percent));
         }
 
+        /*
+         * сделать из testNameCountPercentList карту таких же обектов без дублирования имен тестов
+         * количество пройденных раз суммируются. проценты складываются и считается их среднее
+         */
+        return testNameCountPercentList.stream()
+                .collect(Collectors.toMap(TestNameCountPercent::getTestName,o -> o, (oldVal,newVal) -> {
+                            oldVal.count = oldVal.count + newVal.count;
+                            oldVal.percent = (int) Math.round((oldVal.percent + newVal.percent) / 2.);
+                            return oldVal;
+                        }));
     }
 
     public List<UserInfo> getUserInfoList(){
         List<UserInfo> usersInfoList = new ArrayList<>();
-        List<Test> testList = testDao.getAllTests();
-        for (Test test: testList) {
-            CountQuestionsInTest countQuestionsInTest = new CountQuestionsInTest(0);
-            // usersIdSet и List<Statistic>
-            Map<Integer, List<Statistic>> usersStatisticMapWhoPassedTheTest = getUsersIdMapWhoPassedTheTest(test.getTestId(),countQuestionsInTest);
-            // Если вернулся null, никто из пользователей не проходил тест.
-            if (usersStatisticMapWhoPassedTheTest != null) {
-                /*
-                 * * карта пользователей. Ключём является id. Необходима для
-                 * * быстрого получения имени и фамилии пользователя, вместо
-                 * * постоянного обращения к бд.
-                 * */
-                Map<Integer,User> allUsersMapFromBD = userDao.getAllUsers().stream()
-                        .collect(Collectors.toMap(User::getUserId,user -> user));
 
-                /*
-                 * Множество всех пользователей, которые проходили
-                 * данный тест.
-                 */
-                Set<Integer> usersIdSetWhoPassedTheTest = usersStatisticMapWhoPassedTheTest.keySet();
+        // сначала сгруппировать всю статистику по user_Id
+        Map<Integer,List<Statistic>> statisticMapByUserId = statisticDao.getAllStatistic().stream()
+                .collect(Collectors.groupingBy(Statistic::getUserId, HashMap::new, Collectors.toCollection(ArrayList::new)));
 
-                /* поиск пользователя прошёдшего тест и
-                 * подсчёт процента правильных ответов
-                 */
-                for (Integer userId: usersIdSetWhoPassedTheTest) {
-                    // собственно сам поиск юзера
-                    User user = allUsersMapFromBD.get(userId);
-                    List<Statistic> statisticList = usersStatisticMapWhoPassedTheTest.get(userId);
+        User user;
+        Map<String,TestNameCountPercent> testNameCountPercentMap;
+        for (Integer userId : statisticMapByUserId.keySet()){
+            testNameCountPercentMap = getTestNameCountPercentMap(statisticMapByUserId.get(userId));
 
-                    // количество правильных ответов на тест
-                    double countOfCorrectAnswers = 0;
-                    for (Statistic statistic: statisticList){
-                        if(statistic.isCorrect()) countOfCorrectAnswers++;
-                    }
-                    usersInfoList.add(new UserInfo(user.getLastName() + " " + user.getFirstName(),
-                            test.getTestName(),
-                            statisticList.size()/countQuestionsInTest.getCount(),
-                            (int) Math.round(countOfCorrectAnswers / statisticList.size() * 100)));
-                }
+            TestNameCountPercent testNameCountPercent;
+            for (String testName : testNameCountPercentMap.keySet()) {
+                testNameCountPercent = testNameCountPercentMap.get(testName);
+                user = mapUserIdUser.get(userId);
+
+                usersInfoList.add(new UserInfo(user.getLastName() + " " + user.getFirstName()
+                        ,testName,testNameCountPercent.count,testNameCountPercent.percent));
+
             }
         }
         // сортировка списка по Фамилии

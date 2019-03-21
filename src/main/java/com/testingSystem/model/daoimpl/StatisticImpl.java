@@ -30,4 +30,10 @@ public class StatisticImpl implements StatisticDao {
         String SQL_GET_ALL_STATISTICS_BY_USER_ID = "select * from testingsystem.statistic where userId = ?";
         return jdbcTemplate.query(SQL_GET_ALL_STATISTICS_BY_USER_ID,new StatisticMapper(),userId);
     }
+
+    @Override
+    public List<Statistic> getAllStatistic() {
+        String SQL_GET_ALL_STATISTICS = "select * from testingsystem.statistic ";
+        return jdbcTemplate.query(SQL_GET_ALL_STATISTICS,new StatisticMapper());
+    }
 }
