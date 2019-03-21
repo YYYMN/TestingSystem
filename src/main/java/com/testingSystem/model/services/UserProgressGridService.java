@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-public class UserProgressGridService {
+public class UserProgressGridService implements CalculatePercentage {
 
     public static final class UserGrid{
         private String testName;
@@ -70,57 +70,41 @@ public class UserProgressGridService {
     private List<Integer> getPercentList(List<Statistic> statistics){
 
         List<Integer> percentList = new ArrayList<>();
-
         // Группируем статистику по дате прохождения теста
-        Map<Date,List<Statistic>> statisticMapByData = statistics.stream().collect(
+        // На всякий случай ключи будут уже в отсортированном порядке для сохрнения хронологии
+        Map<Date, List<Statistic>> statisticTreeMapByData = statistics.stream().collect(
                 Collectors.groupingBy(Statistic::getDate, HashMap::new, Collectors.toCollection(ArrayList::new)));
 
-        // На всякий случай надо отсортировать ключи для сохрнения хронологии
-        for (Date date: new TreeSet<>(statisticMapByData.keySet())){
+        for (Date date: statisticTreeMapByData.keySet()){
 
-            List<Statistic> statisticList = statisticMapByData.get(date);
-            int percent;
-            int countTrueAnswers = 0;
-
-            // имеет разный размер т.к в день можно проходить один тест разное количество раз
-            double countQuestions = statisticList.size();
-
-            for (Statistic statistic: statisticList){
-                if (statistic.isCorrect()) countTrueAnswers++;
-            }
-            percent = (int) Math.round(countTrueAnswers / countQuestions * 100);
-
-            percentList.add(percent);
+            List<Statistic> statisticList = statisticTreeMapByData.get(date);
+            percentList.add(calculatePercentage(statisticList));
         }
-            return percentList;
+        return percentList;
     }
-
 
     public List<UserGrid> getUserProgressGrid(Integer userId){
         // Список кастомных объектов для отображения
         List<UserGrid> userProgressGridList = new ArrayList<>();
-        List<UserGrid> userProgressGridListFinal = new ArrayList<>();
+       // List<UserGrid> userProgressGridListFinal = new ArrayList<>();
 
         // Карта всех тестов и их названий, чтобы каждый раз не обращаться в бд
         Map<Integer, String> mapTestIdName =  testDao.getAllTests().stream().collect(
                 Collectors.toMap(Test::getTestId,Test::getTestName));
 
-        // Сначала надо сджоинить статистику по testId, а потом уже по дате прохождения теста
+        // Сначала надо сгруппировать статистику по testId (в TreeMap. это гарантируе хронологию), а потом уже по дате прохождения теста
         Map<Integer,List<Statistic>> statisticMapByTestId = statisticDao.getAllStatisticByUserId(userId).stream().collect(
                 Collectors.groupingBy(Statistic::getTestId, HashMap::new, Collectors.toCollection(ArrayList::new)));
 
-
         for (Integer testId: statisticMapByTestId.keySet()) {
-
-            // получить лист статистики по testId и отдать другой функции
+            // получить лист всей статистики по testId и отдать другой функции
             List<Integer> percentList = getPercentList(statisticMapByTestId.get(testId));
-
-            // накапливаем прогресс в лист
+            // накапливаем прогресс в лист. (testName, testId, {%,%,%,% по дням}  )
             userProgressGridList.add(new UserGrid(mapTestIdName.get(testId), testId, percentList));
         }
 
-        // группируем объекты по названию теста в мапку.....
-        Map<String, List<UserGrid>> map = userProgressGridList.stream()
+        // группируем объекты по названию теста в мапку..... т.к имена тестов могут повторяться это надо учесть и переделать отправляемый лист
+        /*Map<String, List<UserGrid>> map = userProgressGridList.stream()
                 .collect(Collectors.groupingBy(UserGrid::getTestName, HashMap::new, Collectors.toCollection(ArrayList::new)));
 
         List<Integer> allPercents = new ArrayList<>();
@@ -129,16 +113,37 @@ public class UserProgressGridService {
             // сортируем по testId для сохранения хранологии
             userGridList.sort((o1, o2) -> (o1.testId > o2.testId) ? 1 : ((o1.testId.equals(o2.testId)) ? 0 : -1));
             for (UserGrid userGrid : userGridList){
+                // добавление {%,%,%,%}, {%,%,%,%} и т.д в один общий с учётом хронологии
                 allPercents.addAll(userGrid.getPercentList());
             }
             userProgressGridListFinal.add(new UserGrid(testName,null, new ArrayList<>(allPercents)));
+            // очистить лист перед переходом к следующему имени теста
             allPercents.clear();
         }
 
-        return userProgressGridListFinal;
+        return userProgressGridListFinal;*/
         // return userProgressGridList; // бес группировки по testName
-    }
 
+        Map<String, UserGrid> mapTestNameUserGrid = userProgressGridList.stream()
+                .collect(Collectors.toMap(UserGrid::getTestName,o -> o,
+                        (oldVal,newVal) -> {
+                            oldVal.percentList.addAll(newVal.percentList);
+                            return oldVal;
+                        }));
+
+        userProgressGridList.clear();
+        List<Integer> allPercents = new ArrayList<>();
+        for (String testName : mapTestNameUserGrid.keySet()){
+            UserGrid userGrid = mapTestNameUserGrid.get(testName);
+                // добавление {%,%,%,%}, {%,%,%,%} и т.д в один общий с учётом хронологии
+                allPercents.addAll(userGrid.getPercentList());
+
+            userProgressGridList.add(new UserGrid(testName,null, new ArrayList<>(allPercents)));
+            // очистить лист перед переходом к следующему имени теста
+            allPercents.clear();
+        }
+        return userProgressGridList;
+    }
     public List<User> getAllUsers(){
         return userDao.getAllUsers();
     }

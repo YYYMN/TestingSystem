@@ -1,6 +1,7 @@
 package com.testingSystem.model.entity;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Statistic {
     private Integer statisticId;
@@ -68,5 +69,18 @@ public class Statistic {
 
     public void setTestId(Integer testId) {
         this.testId = testId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Statistic statistic = (Statistic) o;
+        return questionId.equals(statistic.questionId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(questionId);
     }
 }
