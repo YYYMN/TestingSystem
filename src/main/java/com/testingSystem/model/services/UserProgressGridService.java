@@ -103,27 +103,6 @@ public class UserProgressGridService implements CalculatePercentage {
             userProgressGridList.add(new UserGrid(mapTestIdName.get(testId), testId, percentList));
         }
 
-        // группируем объекты по названию теста в мапку..... т.к имена тестов могут повторяться это надо учесть и переделать отправляемый лист
-        /*Map<String, List<UserGrid>> map = userProgressGridList.stream()
-                .collect(Collectors.groupingBy(UserGrid::getTestName, HashMap::new, Collectors.toCollection(ArrayList::new)));
-
-        List<Integer> allPercents = new ArrayList<>();
-        for (String testName : map.keySet()){
-            List<UserGrid> userGridList = map.get(testName);
-            // сортируем по testId для сохранения хранологии
-            userGridList.sort((o1, o2) -> (o1.testId > o2.testId) ? 1 : ((o1.testId.equals(o2.testId)) ? 0 : -1));
-            for (UserGrid userGrid : userGridList){
-                // добавление {%,%,%,%}, {%,%,%,%} и т.д в один общий с учётом хронологии
-                allPercents.addAll(userGrid.getPercentList());
-            }
-            userProgressGridListFinal.add(new UserGrid(testName,null, new ArrayList<>(allPercents)));
-            // очистить лист перед переходом к следующему имени теста
-            allPercents.clear();
-        }
-
-        return userProgressGridListFinal;*/
-        // return userProgressGridList; // бес группировки по testName
-
         Map<String, UserGrid> mapTestNameUserGrid = userProgressGridList.stream()
                 .collect(Collectors.toMap(UserGrid::getTestName,o -> o,
                         (oldVal,newVal) -> {
