@@ -88,7 +88,7 @@ public class UserStatisticService implements CalculatePercentage {
     }
 
     // usersIdSet и List<Statistic>
-    private Map<String,TestNameCountPercent> getTestNameCountPercentMap(List<Statistic> statisticListOfOneUser){
+    private List<TestNameCountPercent> getTestNameCountPercentList(List<Statistic> statisticListOfOneUser){
         // группируем статистику пользователя по testId
         Map<Integer,List<Statistic>> statisticMapByTestId = statisticListOfOneUser.stream()
                 .collect(Collectors.groupingBy(Statistic::getTestId, HashMap::new, Collectors.toCollection(ArrayList::new)));
@@ -106,16 +106,25 @@ public class UserStatisticService implements CalculatePercentage {
             testNameCountPercentList.add(new TestNameCountPercent(mapTestIdName.get(testId),count,percent));
         }
 
-        /*
-         * сделать из testNameCountPercentList карту таких же обектов без дублирования имен тестов
-         * количество пройденных раз суммируются. проценты складываются и считается их среднее
-         */
-        return testNameCountPercentList.stream()
-                .collect(Collectors.toMap(TestNameCountPercent::getTestName,o -> o, (oldVal,newVal) -> {
-                            oldVal.count = oldVal.count + newVal.count;
-                            oldVal.percent = (int) Math.round((oldVal.percent + newVal.percent) / 2.);
-                            return oldVal;
-                        }));
+
+        // Надо учесть тесты с одинаковыми именами...
+        Map<String,List<TestNameCountPercent>> mapOfLists = testNameCountPercentList.stream()
+                .collect(Collectors.groupingBy(TestNameCountPercent::getTestName,HashMap::new, Collectors.toCollection(ArrayList::new)));
+        testNameCountPercentList.clear();
+
+        for (String testName : mapOfLists.keySet()) {
+            List<TestNameCountPercent> testNameCountPercents = mapOfLists.get(testName);
+            count = 0; // количество пройденых раз просуммировать
+            percent = 0; // проценты сложить и поделить на количесвто
+            for (TestNameCountPercent testNameCountPercent : testNameCountPercents){
+                count += testNameCountPercent.count;
+                percent += testNameCountPercent.percent;
+            }
+            percent /= testNameCountPercents.size();
+            testNameCountPercentList.add(new TestNameCountPercent(testName, count, percent));
+        }
+
+        return testNameCountPercentList;
     }
 
     public List<UserInfo> getUserInfoList(){
@@ -126,18 +135,15 @@ public class UserStatisticService implements CalculatePercentage {
                 .collect(Collectors.groupingBy(Statistic::getUserId, HashMap::new, Collectors.toCollection(ArrayList::new)));
 
         User user;
-        Map<String,TestNameCountPercent> testNameCountPercentMap;
+        List<TestNameCountPercent> testNameCountPercentList;
         for (Integer userId : statisticMapByUserId.keySet()){
-            testNameCountPercentMap = getTestNameCountPercentMap(statisticMapByUserId.get(userId));
+            testNameCountPercentList = getTestNameCountPercentList(statisticMapByUserId.get(userId));
 
-            TestNameCountPercent testNameCountPercent;
-            for (String testName : testNameCountPercentMap.keySet()) {
-                testNameCountPercent = testNameCountPercentMap.get(testName);
+            for (TestNameCountPercent testNameCountPercent : testNameCountPercentList) {
                 user = mapUserIdUser.get(userId);
 
                 usersInfoList.add(new UserInfo(user.getLastName() + " " + user.getFirstName()
-                        ,testName,testNameCountPercent.count,testNameCountPercent.percent));
-
+                        ,testNameCountPercent.testName,testNameCountPercent.count,testNameCountPercent.percent));
             }
         }
         // сортировка списка по Фамилии
