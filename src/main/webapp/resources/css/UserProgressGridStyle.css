@@ -1,0 +1,20 @@
+.yellow{
+    border-radius: 50%;
+    background-color: #e4de19;
+}
+
+.green{
+    border-radius: 50%;
+    background-color: #20ef20;
+}
+
+.red{
+    border-radius: 50%;
+    background-color: #dc1515;
+}
+
+img{
+    position: relative;
+    top: 5px;
+}
+

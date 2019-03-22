@@ -1,5 +1,6 @@
 package com.testingSystem.model.services;
 
+import com.google.gson.Gson;
 import com.testingSystem.model.dao.StatisticDao;
 import com.testingSystem.model.dao.TestDao;
 import com.testingSystem.model.dao.UserDao;
@@ -83,7 +84,7 @@ public class UserProgressGridService implements CalculatePercentage {
         return percentList;
     }
 
-    public List<UserGrid> getUserProgressGrid(Integer userId){
+    public String getUserProgressGrid(Integer userId){
         // Список кастомных объектов для отображения
         List<UserGrid> userProgressGridList = new ArrayList<>();
        // List<UserGrid> userProgressGridListFinal = new ArrayList<>();
@@ -142,7 +143,9 @@ public class UserProgressGridService implements CalculatePercentage {
             // очистить лист перед переходом к следующему имени теста
             allPercents.clear();
         }
-        return userProgressGridList;
+
+        Gson gson = new Gson();
+        return gson.toJson(userProgressGridList);
     }
     public List<User> getAllUsers(){
         return userDao.getAllUsers();

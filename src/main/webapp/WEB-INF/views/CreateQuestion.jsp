@@ -1,12 +1,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page pageEncoding="UTF-8"%>
+<%request.setCharacterEncoding("UTF-8");%>
+
 <html>
     <head>
-        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>CreateQuestion</title>
-        <link rel="stylesheet" href="http://localhost:8083/css/CreateQuestionPageStyle.css">
+        <link rel="stylesheet" href="http://localhost:8080/css/CreateQuestionPageStyle.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-        <script src="http://localhost:8083/scripts/CreateQuestion.js"></script>
+        <script src="http://localhost:8080/scripts/CreateQuestion.js"></script>
     </head>
     <body>
         <div class="picture">

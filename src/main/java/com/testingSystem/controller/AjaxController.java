@@ -65,7 +65,7 @@ public class AjaxController {
     @RequestMapping(value = "/GetTestsByTopic", method = RequestMethod.GET)
     @ResponseBody
     public List<Test> getTestsByTopic(@RequestParam(name = "targetTopic", required = false) String targetTopic) {
-        return testImpl.getAllTestsByTopicId(topicImpl.getTopicByDescription(targetTopic).getTopicId());
+        return questionAndTestService.functionForList(topicImpl.getTopicByDescription(targetTopic).getTopicId());
     }
 
     @RequestMapping(value = "/GetQuestionsByTest", method = RequestMethod.GET)

@@ -31,7 +31,7 @@ public class UserGridProgressController {
         int userId = Integer.parseInt(request.getParameter("userId"));
         String userLastName = request.getParameter("userLastName");
         String userFirstName = request.getParameter("userFirstName");
-        List<UserProgressGridService.UserGrid> userProgressGridList = userProgressGridService.getUserProgressGrid(userId);
+        String userProgressGridList = userProgressGridService.getUserProgressGrid(userId);
 
         model.addAttribute("progressGridList",userProgressGridList);
         model.addAttribute("userLastAndFirstName",userLastName + " " + userFirstName);

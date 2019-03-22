@@ -4,8 +4,9 @@
     <head>
         <meta charset="utf-8">
         <title>CreateTest</title>
+        <link rel="stylesheet" href="http://localhost:8080/css/CreateTestPageStyle.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-        <script src="http://localhost:8083/scripts/CreateTest.js"></script>
+        <script src="http://localhost:8080/scripts/CreateTest.js"></script>
     </head>
     <body>
         <div class="picture">
@@ -22,9 +23,9 @@
                 <br>
                 <div class="tests"></div>
                 <div class="questions"></div>
-                <button id="add" value="add" type="button">Добавить</button>
-                <button id="save" value="save" type="submit" >Сохранить</button>
-                <p><a href="http://localhost:8083/CreateQuestion" target="_blank" class="button" title="Создать вопрос">Создать новый вопрос</a></p>
+                <button class="button" id="add" value="add" type="button">Добавить вопрос</button>
+                <button class="button" id="save" value="save" type="submit" >Сохранить тест</button>
+                <p><a href="http://localhost:8080/CreateQuestion" target="_blank" class="button" title="Создать вопрос">Создать новый вопрос</a></p>
             </form>
         </div>
     </body>

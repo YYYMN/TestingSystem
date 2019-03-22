@@ -31,6 +31,7 @@ $(document).ready(function(){
             },
             success : function (data) {
                 testsData = data;
+                console.log(data);
                 $('.tests').append('<div class="innerTestsDiv"><input type="text" required list="tests" placeholder="Введите новый или выберите тест" id="test" name="test" autocomplete="off">' +
                     '<input hidden id="testId" name="testId" value="">'+
                     '<datalist id="tests" class="testsDatalist">');

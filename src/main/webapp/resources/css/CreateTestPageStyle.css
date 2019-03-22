@@ -1,0 +1,52 @@
+.CreateTestPage {
+    position: absolute;
+    top: 80px;
+    right: 380px;
+}
+.picture{
+    position: absolute ;
+    top: 70px;
+    left: 450px;
+}
+input {
+    width: 260px;
+    height: 35px;
+    box-sizing: border-box;
+    border: 1px solid rgb(50, 50, 240);
+    border-radius: 10px;
+}
+
+.remove{
+    color: white;
+    text-decoration: none;
+    font-size: 70%;
+    user-select: none;
+    background: rgb(240, 29, 20);
+    padding: 0.3em 1em;
+    border-radius: 7px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+}
+.remove:hover{
+    background: rgb(145, 19, 14);
+}
+
+.remove:active{
+    background: rgb(145, 6, 11);
+}
+
+.button{
+    color: white;
+    text-decoration: none;
+    font-size: 100%;
+    user-select: none;
+    background: rgb(50, 50, 240);
+    padding: .3em 3em;
+    border-radius: 7px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+}
+.button:hover{
+    background: rgb(50, 50, 180);
+}
+.button:active{
+    background: rgb(40, 40, 140);
+}
