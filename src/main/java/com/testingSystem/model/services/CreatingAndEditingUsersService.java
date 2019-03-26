@@ -4,6 +4,7 @@ import com.testingSystem.model.dao.RoleDao;
 import com.testingSystem.model.dao.UserDao;
 import com.testingSystem.model.entity.Role;
 import com.testingSystem.model.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class CreatingAndEditingUsersService {
     private RoleDao roleDao;
     private UserDao userDao;
 
+    @Autowired
     public CreatingAndEditingUsersService(RoleDao roleDao, UserDao userDao) {
         this.roleDao = roleDao;
         this.userDao = userDao;
@@ -26,7 +28,7 @@ public class CreatingAndEditingUsersService {
     }
 
     public User getUserById(Integer userId){
-        User user = userDao.getUserByUserId(userId);
+        User user = userDao.getUserById(userId);
         Role role = roleDao.getRoleByRoleId(user.getRoleId());
         user.setRoles(role.getRoles());
         return user;
@@ -42,7 +44,7 @@ public class CreatingAndEditingUsersService {
         userDao.updateUser(user);
     }
 
-    public void deleteUserByUserId(Integer userId) { userDao.deleteUserByUserId(userId);}
+    public void deleteUserByUserId(Integer userId) { userDao.deleteUserById(userId);}
 
     /**
      *

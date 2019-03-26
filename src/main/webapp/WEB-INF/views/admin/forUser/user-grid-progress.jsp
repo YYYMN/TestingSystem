@@ -17,7 +17,7 @@
                 <th>Усреднённый результат прохождения теста по дням в процентах</th>
                 <%----%>
             </table>
-            <p><a href="http://localhost:8080/TableOfUsersForWatchingGrid" class="button" title="Вернуться на страицу выбора статистики">Назад</a></p>
+            <p><a href="/admin/table-of-users-for-watching-grid" class="button" title="Вернуться на страицу выбора статистики">Назад</a></p>
         </div>
     </body>
 </html>

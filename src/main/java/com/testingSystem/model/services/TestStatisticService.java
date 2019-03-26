@@ -1,16 +1,13 @@
 package com.testingSystem.model.services;
 
-import com.testingSystem.model.dao.QuestionDao;
 import com.testingSystem.model.dao.StatisticDao;
 import com.testingSystem.model.dao.TestDao;
-import com.testingSystem.model.entity.Question;
 import com.testingSystem.model.entity.Statistic;
 import com.testingSystem.model.entity.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,13 +43,11 @@ public class TestStatisticService implements CalculatePercentage {
         }
     }
 
-    private QuestionDao questionDao;
     private StatisticDao statisticDao;
     private TestDao testDao;
 
     @Autowired
-    public TestStatisticService(QuestionDao questionDao, StatisticDao statisticDao, TestDao testDao) {
-        this.questionDao = questionDao;
+    public TestStatisticService(StatisticDao statisticDao, TestDao testDao) {
         this.statisticDao = statisticDao;
         this.testDao = testDao;
     }

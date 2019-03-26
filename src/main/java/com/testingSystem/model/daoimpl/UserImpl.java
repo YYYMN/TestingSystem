@@ -6,8 +6,10 @@ import com.testingSystem.model.entity.User;
 import com.testingSystem.model.mapper.UserMapper;
 import com.testingSystem.spring.config.AppConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -36,11 +38,24 @@ public class UserImpl implements UserDao {
                 user.getRoleId());
     }
 
-    public User getUserByUserId(Integer userId) {
+    public User getUserById(Integer userId) {
 
         String SQL_GET_USER = "select * from testingsystem.user where userId = ?";
         return jdbcTemplate.queryForObject(SQL_GET_USER,new UserMapper(),userId);
     }
+
+    public User getUserByLogin(String login) {
+
+        User user;
+        String SQL_GET_USER_BY_LOGIN = "select * from testingsystem.user where login = ?";
+        try {
+          user = jdbcTemplate.queryForObject(SQL_GET_USER_BY_LOGIN,new UserMapper(),login);
+        }catch (EmptyResultDataAccessException e){
+            user = null;
+        }
+        return user;
+    }
+
 
 
     @Override
@@ -56,7 +71,7 @@ public class UserImpl implements UserDao {
     }
 
     @Override
-    public void deleteUserByUserId(Integer userId) {
+    public void deleteUserById(Integer userId) {
         String SQL_DELETE_USER = "delete from testingsystem.user where userId = ?";
         jdbcTemplate.update(SQL_DELETE_USER,userId);
     }

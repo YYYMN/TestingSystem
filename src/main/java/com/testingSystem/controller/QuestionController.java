@@ -25,10 +25,10 @@ public class QuestionController {
         this.questionAndTestService = questionAndTestService;
     }
 
-    @GetMapping("/QuestionsInfo")
+    @GetMapping("/admin/questions-info")
     public String showQuestionStatistic(Model model) {
         model.addAttribute("list",questionStatisticService.getQuestionInfoList());
-        return "QuestionsInfo";
+        return "/admin/forStatistic/questions-info";
     }
 
     @GetMapping("/CreateQuestion")

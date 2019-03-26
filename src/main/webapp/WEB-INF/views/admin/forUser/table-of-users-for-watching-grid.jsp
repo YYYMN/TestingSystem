@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>TableOfUsersForEditing</title>
+    <title>TableOfUsersForWatchingGrid</title>
     <link rel="stylesheet" href="http://localhost:8080/css/stylesForTables.css">
     <link rel="stylesheet" href="http://localhost:8080/css/a_buttons.css">
 </head>
@@ -25,12 +25,12 @@
                 <td>${user.login}</td>
                 <td>${user.email}</td>
                 <td>
-                    <a class="showProgress" href="http://localhost:8080/UserForWatchingGrid?userId=${user.userId}&userLastName=${user.lastName}&userFirstName=${user.firstName}">Посмотреть прогресс</a>
+                    <a class="showProgress" href="/admin/user-for-watching-grid?userId=${user.userId}&userLastName=${user.lastName}&userFirstName=${user.firstName}">Посмотреть прогресс</a>
                 </td>
             </tr>
         </c:forEach>
     </table>
-    <p><a href="http://localhost:8080/html/Statistics.html" class="button" title="Вернуться на страицу выбора статистики">Назад</a></p>
+    <p><a href="/admin/statistics" class="button" title="Вернуться на страицу выбора статистики">Назад</a></p>
 </div>
 </body>
 </html>

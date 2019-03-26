@@ -8,7 +8,7 @@ public class MvcWebApplicationInitializer
     // Load database and spring security configurations
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { AppConfig.class/*, WebSecurityConfig.class */};
+        return new Class[] { AppConfig.class, WebSecurityConfig.class };
     }
 
     @Override

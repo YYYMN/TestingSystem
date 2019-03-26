@@ -31,10 +31,10 @@ public class TestController {
         this.questionAndTestService = questionAndTestService;
     }
 
-    @GetMapping("/TestsInfo")
+    @GetMapping("/admin/tests-info")
     public String showTestStatistic(Model model){
         model.addAttribute("list", testStatisticService.getTestInfoList());
-        return "TestsInfo";
+        return "/admin/forStatistic/tests-info";
     }
 
     @GetMapping("/CreateTest")

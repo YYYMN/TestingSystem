@@ -19,13 +19,13 @@ public class UserGridProgressController {
         this.userProgressGridService = userProgressGridService;
     }
 
-    @GetMapping("/TableOfUsersForWatchingGrid")
+    @GetMapping("/admin/table-of-users-for-watching-grid")
     public String getTableOfUsersForWatchingGrid(Model model){
         model.addAttribute("usersList", userProgressGridService.getAllUsers());
-        return "TableOfUsersForWatchingGrid";
+        return "/admin/forUser/table-of-users-for-watching-grid";
     }
 
-    @GetMapping("/UserForWatchingGrid")
+    @GetMapping("/admin/user-for-watching-grid")
     public String getUserForWatchingGrid(HttpServletRequest request, Model model){
 
         int userId = Integer.parseInt(request.getParameter("userId"));
@@ -36,6 +36,6 @@ public class UserGridProgressController {
         model.addAttribute("progressGridList",userProgressGridList);
         model.addAttribute("userLastAndFirstName",userLastName + " " + userFirstName);
 
-        return "UserGridProgress";
+        return "/admin/forUser/user-grid-progress";
     }
 }

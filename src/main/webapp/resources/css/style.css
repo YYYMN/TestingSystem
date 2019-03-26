@@ -3,9 +3,14 @@
     top: 150px;
     right: 400px;
 }
-.CreateUserPage {
+.CreatePage {
     position: absolute;
     top: 80px;
+    right: 380px;
+}
+.LoginPage {
+    position: absolute;
+    top: 150px;
     right: 380px;
 }
 .picture{
@@ -29,6 +34,10 @@ input {
     box-sizing: border-box;
     border: 1px solid rgb(50, 50, 240);
     border-radius: 10px;
+}
+
+input.sing_in, input.logout {
+    width: 160px;
 }
 input[type=checkbox]{
     width: 15px;

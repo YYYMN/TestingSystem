@@ -25,13 +25,13 @@
             <td>${user.login}</td>
             <td>${user.email}</td>
             <td>
-                <a class="edit" href="http://localhost:8080/getUserForUpdate?userId=${user.userId}">Редактировать</a>
-                <a class="delete" href="http://localhost:8080/DeleteUser?userId=${user.userId}">Удалить</a>
+                <a class="edit" href="/admin/update-user?userId=${user.userId}">Редактировать</a>
+                <a class="delete" href="/admin/delete-user?userId=${user.userId}">Удалить</a>
             </td>
         </tr>
     </c:forEach>
 </table>
-<p><a href="http://localhost:8080/html/CreatingAndEditingUsers.html" class="button" title="Вернуться на страицу выбора статистики">Назад</a></p>
+    <p><a href="/admin/add-or-update-user" class="button" title="Вернуться на страицу назад">Назад</a></p>
 </div>
 </body>
 </html>
