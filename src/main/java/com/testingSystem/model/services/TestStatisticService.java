@@ -100,7 +100,6 @@ public class TestStatisticService implements CalculatePercentage {
             int percent = 0; // проценты сложить и поделить на количесвто
             for (TestInfo testInfo : list){
                 count += testInfo.getNumberOfTimes();
-                System.out.println(testName + " " + testInfo.getPercent());
                 percent += testInfo.getPercent();
             }
             percent /= list.size();

@@ -91,7 +91,6 @@ public class UserController {
     @GetMapping("/DeleteUser")
     public ModelAndView deleteUser(HttpServletRequest request) {
 
-        System.out.println(request.getParameter("userId"));
         int userId = Integer.parseInt(request.getParameter("userId"));
         creatingAndEditingUsersService.deleteUserByUserId(userId);
 
