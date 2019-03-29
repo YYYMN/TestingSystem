@@ -12,7 +12,7 @@
 <div class="picture">
     <p><img src="<c:url value="/images/picture.png"/>" width="230" alt="Тут должен быть рисунок"></p>
 </div>
-<div class="CreatePage" align="center">
+<div class="CreateUser" align="center">
     <form:form method="post" action="/admin/create-user" modelAttribute="user">
 
         <table>

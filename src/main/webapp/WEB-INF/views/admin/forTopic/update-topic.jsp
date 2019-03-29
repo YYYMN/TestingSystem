@@ -12,13 +12,13 @@
 <div class="picture">
     <p><img src="http://localhost:8080/images/picture.png" width="230" alt="Тут должен быть рисунок"></p>
 </div>
-<div class="LoginPage" align="center">
+<div class="CreateTopic" align="center">
     <form:form method="post" action="/admin/update-topic" modelAttribute="topic">
 
             <table>
                 <tr><td> <form:hidden path="topicId" /></td></tr>
                 <tr><td> <form:input path="topicName" placeholder="Название темы" size="20" required="true"/></td></tr>
-                <tr><td><form:input path="description" placeholder="Описание темы" size="20"  required="true"/></td></tr>
+                <tr><td><form:textarea path="description" placeholder="Описание темы" size="20"  required="true"/></td></tr>
                 <tr><td><input type="submit" value="Обновить тему" /></td></tr>
             </table>
         </form:form>

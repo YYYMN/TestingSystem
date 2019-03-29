@@ -28,7 +28,7 @@ public class UserController {
     @GetMapping({"/admin/users-info","/tutor/users-info"})
     public String showTestStatistic(Model model){
         model.addAttribute("list", userStatisticService.getUserInfoList());
-        return "/admin/forStatistic/users-info";
+        return "admin/forStatistic/users-info";
     }
 
     @GetMapping("/admin/create-user")
@@ -46,19 +46,17 @@ public class UserController {
     public String addUser(Model model, User user, BindingResult result) {
 
         creatingAndEditingUsersService.CreatingUser(user);
-        user = new User();
-        model.addAttribute("user", user);
         model.addAttribute("allRoles", creatingAndEditingUsersService.allRolesList());
 
         model.addAttribute("success","Новый пользователь успешно добавлен!");
-        return "/admin/forUser/create-user";
+        return "admin/forUser/create-user";
     }
 
     @GetMapping("/admin/table-of-users-for-editing")
     public String getTableOfUsersForEditing(Model model) {
 
         model.addAttribute("usersList",creatingAndEditingUsersService.getAllUsers());
-        return "/admin/forStatistic/table-of-users-for-editing";
+        return "admin/forUser/table-of-users-for-editing";
     }
 
     @GetMapping("/admin/update-user")
@@ -70,7 +68,7 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("allRoles", creatingAndEditingUsersService.allRolesList());
 
-        return "/admin/forUser/update-user";
+        return "admin/forUser/update-user";
     }
 
     @PostMapping("/admin/update-user")
@@ -81,7 +79,7 @@ public class UserController {
 
         model.addAttribute("allRoles", creatingAndEditingUsersService.allRolesList());
         model.addAttribute("success","Пользователь успешно изменён!");
-        return "/admin/forUser/update-user";
+        return "admin/forUser/update-user";
     }
 
      @GetMapping("/admin/delete-user")
@@ -91,6 +89,6 @@ public class UserController {
         creatingAndEditingUsersService.deleteUserByUserId(userId);
 
         //return "redirect: /TableOfUsersForEditing"  // не помогло
-        return new ModelAndView("redirect: /admin/forUser/table-of-users-for-editing");
+        return new ModelAndView("redirect: /admin/table-of-users-for-editing");
     }
 }

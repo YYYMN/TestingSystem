@@ -1,22 +1,27 @@
 .refPage {
     position: absolute;
-    top: 150px;
-    right: 400px;
+    top: 120px;
+    left: 700px;
 }
-.CreatePage {
+.CreateUser {
     position: absolute;
-    top: 80px;
-    right: 380px;
+    top: 50px;
+    left: 700px;
+}
+.CreateTopic {
+    position: absolute;
+    top: 140px;
+    left: 700px;
 }
 .LoginPage {
     position: absolute;
-    top: 150px;
-    right: 380px;
+    top: 140px;
+    left: 700px;
 }
 .picture{
     position: absolute ;
     top: 70px;
-    left: 450px;
+    left: 440px;
 }
 a, label{
     text-decoration: none;
@@ -26,7 +31,7 @@ a, label{
 a:hover {
     color: rgb(255, 150, 0);
 }
-input {
+input, textarea {
     width: 260px;
     height: 35px;
     padding: 12px 20px;

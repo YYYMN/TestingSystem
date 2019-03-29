@@ -10,6 +10,7 @@
     <p><img src="http://localhost:8080/images/picture.png" width="230" alt="Тут должен быть рисунок"></p>
 </div>
 <div class="refPage" align="center">
+    <p style="font-size: 110%">Добро пожаловать, <span style="color: green;">${username}!</span></p>
     <p><a href="/admin/add-or-update-topic" class="text">Создать или редактировать тему</a></p>
     <p><a href="/admin/add-or-update-user" class="text">Создать или редактировать пользователя</a></p>
     <p><a href="/admin/statistics" class="text">Статистика</a></p>

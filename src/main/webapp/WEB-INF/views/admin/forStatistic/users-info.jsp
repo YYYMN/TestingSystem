@@ -26,7 +26,7 @@
             </tr>
         </c:forEach>
     </table>
-    <p><a href="http://localhost:8080/html/Statistics.html" class="button" title="Вернуться на страицу выбора статистики">Назад</a></p>
+    <p><a href="/admin/statistics" class="button" title="Вернуться на страицу выбора статистики">Назад</a></p>
 </div>
 </body>
 </html>
