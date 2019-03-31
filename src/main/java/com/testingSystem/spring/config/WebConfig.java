@@ -22,6 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addViewController("/admin/add-or-update-topic").setViewName("admin/forTopic/add-or-update-topic");
         registry.addViewController("/admin/add-or-update-user").setViewName("admin/forUser/add-or-update-user");
         registry.addViewController("/admin/statistics").setViewName("admin/forStatistic/statistics");
+        registry.addViewController("/tutor/statistics").setViewName("tutor/forStatistic/statistics");
     }
 
     @Override

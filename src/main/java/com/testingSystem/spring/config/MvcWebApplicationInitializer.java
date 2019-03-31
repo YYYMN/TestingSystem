@@ -1,6 +1,9 @@
 package com.testingSystem.spring.config;
 
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import javax.servlet.Filter;
 
 public class MvcWebApplicationInitializer
         extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -21,4 +24,8 @@ public class MvcWebApplicationInitializer
         return new String[] { "/" };
     }
 
+    @Override
+    protected Filter[] getServletFilters() {
+        return new Filter[]{new CharacterEncodingFilter("UTF-8", true, true)};
+    }
 }

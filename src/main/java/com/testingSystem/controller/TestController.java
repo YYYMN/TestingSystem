@@ -10,8 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class TestController {
@@ -31,20 +32,21 @@ public class TestController {
         this.questionAndTestService = questionAndTestService;
     }
 
-    @GetMapping("/admin/tests-info")
-    public String showTestStatistic(Model model){
+    @GetMapping({"/admin/tests-info", "/tutor/tests-info"})
+    public String showTestStatistic(Model model, HttpSession session){
         model.addAttribute("list", testStatisticService.getTestInfoList());
-        return "/admin/forStatistic/tests-info";
+        String role = (String) session.getAttribute("role");
+        return "/"+role+"/forStatistic/tests-info";
     }
 
-    @GetMapping("/CreateTest")
+    @GetMapping("/tutor/add-or-update-test")
     public String createTest(Model model){
         model.addAttribute("topics", topicImpl.getAllTopics());
         model.addAttribute("JSONQuestions", questionAndTestService.getAllQuestionsAsJSONArray());
-        return "CreateTest";
+        return "tutor/add-or-update-test";
     }
 
-    @PostMapping("/CreateTest")
+    @PostMapping("/tutor/add-or-update-test")
     public String createTest(Model model, @RequestParam(name = "topic", required = false) String topic,
                                           @RequestParam(name = "test", required = false) String test,
                                           @RequestParam(name = "questions[]", required = false) String[] questions,
@@ -52,6 +54,6 @@ public class TestController {
         questionAndTestService.addTestToDb(topic, test, questions, testId);
         model.addAttribute("topics", topicImpl.getAllTopics());
         model.addAttribute("JSONQuestions", questionAndTestService.getAllQuestionsAsJSONArray());
-        return "CreateTest";
+        return "tutor/add-or-update-test";
     }
 }

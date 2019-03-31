@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class QuestionController {
 
@@ -25,25 +27,29 @@ public class QuestionController {
         this.questionAndTestService = questionAndTestService;
     }
 
-    @GetMapping("/admin/questions-info")
-    public String showQuestionStatistic(Model model) {
+    @GetMapping({"/admin/questions-info", "tutor/questions-info"})
+    public String showQuestionStatistic(Model model, HttpSession session) {
         model.addAttribute("list",questionStatisticService.getQuestionInfoList());
-        return "/admin/forStatistic/questions-info";
+        String role = (String) session.getAttribute("role");
+        return "/"+role+"/forStatistic/questions-info";
     }
 
-    @GetMapping("/CreateQuestion")
-    public String createQuestion(Model model){
+    @GetMapping("/tutor/add-or-update-question")
+    public String createQuestion(Model model, HttpSession session){
         model.addAttribute("questions",questionImpl.getAllQuestions());
-        return "CreateQuestion";
+        System.out.println(session.getId());
+        String role = (String) session.getAttribute("role");
+        System.out.println(role);
+        return "tutor/add-or-update-question";
     }
 
-    @PostMapping("/CreateQuestion")
+    @PostMapping("/tutor/add-or-update-question")
     public String createQuestion(@RequestParam(name = "question", required = false) String question,
                                  @RequestParam(name = "answer[]", required = false) String[] answers,
                                  @RequestParam(name="checkbox_option", required = false) String[] checkbox_option, Model model) {
         questionAndTestService.addQuestionAndAnswersToDb(question, answers, checkbox_option);
         model.addAttribute("questions",questionImpl.getAllQuestions());
-        return "CreateQuestion";
+        return "tutor/add-or-update-question";
     }
 
 }

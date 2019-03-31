@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class UserController {
@@ -26,9 +27,10 @@ public class UserController {
     }
 
     @GetMapping({"/admin/users-info","/tutor/users-info"})
-    public String showTestStatistic(Model model){
+    public String showTestStatistic(Model model, HttpSession session){
         model.addAttribute("list", userStatisticService.getUserInfoList());
-        return "admin/forStatistic/users-info";
+        String role = (String) session.getAttribute("role");
+        return ""+role+"/forStatistic/users-info";
     }
 
     @GetMapping("/admin/create-user")
