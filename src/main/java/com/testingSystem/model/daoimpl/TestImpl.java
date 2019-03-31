@@ -44,11 +44,11 @@ public class TestImpl implements TestDao {
     @Override
     public void addTestToDb(String topic, String test, String[] questions, String testID ) {
         String SQL_GET_TOPICID_BY_DESCRIPTION = "select distinct topicId from testingsystem.topic where description ='"+topic+"'";
-        String SQL_ADD_TEST_TO_DB = "insert into test (description, topicId) values(?,?)";
+        String SQL_ADD_TEST_TO_DB = "insert into test (name,description, topicId) values(?,?,?)";
         String SQL_GET_COUNT_OF_QUESTIONS_IN_CORRECT_TEST = "select count(questionId) from qt_conn where testId ='"+getTestByDescription(test).getTestId()+"'";
 
         if (testID.equals("")){
-            jdbcTemplate.update(SQL_ADD_TEST_TO_DB, test, jdbcTemplate.queryForObject(SQL_GET_TOPICID_BY_DESCRIPTION, Integer.class));
+            jdbcTemplate.update(SQL_ADD_TEST_TO_DB, test, test, jdbcTemplate.queryForObject(SQL_GET_TOPICID_BY_DESCRIPTION, Integer.class));
             questionImpl.addQuestionsAndTestIdToQTConnection(questionImpl.getQuestionsIdByDescriptions(questions), test);
         }else {
             int testId = Integer.parseInt(testID);
@@ -60,7 +60,7 @@ public class TestImpl implements TestDao {
 
                 }else {
                     if (questions.length !=  jdbcTemplate.queryForObject(SQL_GET_COUNT_OF_QUESTIONS_IN_CORRECT_TEST, Integer.class)) {
-                        jdbcTemplate.update(SQL_ADD_TEST_TO_DB, test, jdbcTemplate.queryForObject(SQL_GET_TOPICID_BY_DESCRIPTION, Integer.class));
+                        jdbcTemplate.update(SQL_ADD_TEST_TO_DB, test, test, jdbcTemplate.queryForObject(SQL_GET_TOPICID_BY_DESCRIPTION, Integer.class));
                         questionImpl.addQuestionsAndTestIdToQTConnection(questionImpl.getQuestionsIdByDescriptions(questions), test);
                     }
                 }

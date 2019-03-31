@@ -46,7 +46,11 @@ $(document).ready(function(){
     });
 
     $(document).on('input','#test', function (ev) {
-        $('.questions').append('<div class="innerQuestionsDiv"></div>');
+
+        if ($('.innerQuestionsDiv')[0]){
+        }else $('.questions').append('<div class="innerQuestionsDiv"></div>');
+
+
 
         if ($(ev.target).val() == "") {
             $('.innerQuestionsDiv').remove();

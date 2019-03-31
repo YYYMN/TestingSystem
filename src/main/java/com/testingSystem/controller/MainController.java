@@ -27,19 +27,16 @@ public class MainController {
         if (roles.equals("[ROLE_Admin]")){
             session = request.getSession();
             session.setAttribute("role", "admin");
-            System.out.println(session.getId());
             return new ModelAndView("redirect: /admin/admin-main-page ");
         }
         else if(roles.equals("[ROLE_Tutor]")) {
             session = request.getSession();
             session.setAttribute("role", "tutor");
-            System.out.println(session.getId());
             return new ModelAndView("redirect: /tutor/tutor-main-page");
         }
         else if(roles.equals("[ROLE_User]")) {
             session = request.getSession();
             session.setAttribute("role", "user");
-            System.out.println(session.getId());
             return new ModelAndView("redirect: /user/user-main-page");
         }
         else {return new ModelAndView("redirect: /welcome");}
@@ -51,7 +48,6 @@ public class MainController {
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
-
         model.addAttribute("username", name);
         return "admin/admin-main-page";
     }
