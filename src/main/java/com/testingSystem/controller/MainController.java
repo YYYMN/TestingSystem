@@ -17,6 +17,8 @@ import java.util.stream.Stream;
 @Controller
 public class MainController {
 
+
+
     @GetMapping({"/", "/welcome"})
     public ModelAndView redirectFunction(HttpServletRequest request){
         HttpSession session;
@@ -44,7 +46,7 @@ public class MainController {
     }
 
     @GetMapping("/admin/admin-main-page")
-    public String admin(Model model)
+    public String admin(Model model, HttpServletRequest request)
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
@@ -53,10 +55,12 @@ public class MainController {
     }
 
     @GetMapping("/tutor/tutor-main-page")
-    public String tutor(Model model)
+    public String tutor(Model model, HttpServletRequest request)
     {
+        HttpSession session = request.getSession();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
+        session.setAttribute("userName", name);
         model.addAttribute("username", name);
         return "tutor/tutor-main-page";
     }

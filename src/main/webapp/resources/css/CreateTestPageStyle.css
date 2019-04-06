@@ -1,12 +1,34 @@
 .CreateTestPage {
     position: absolute;
-    top: 80px;
-    right: 380px;
+    top: 70px;
+    left: 700px;
 }
 .picture{
     position: absolute ;
     top: 70px;
     left: 450px;
+}
+
+.innerQuestionsDiv{
+    position: relative;
+    left: 32px;
+}
+
+.tests{
+    margin-right: 4px;
+}
+
+#save{
+    margin: 5px;
+    white-space: nowrap;
+}
+
+#add{
+    margin: 5px;
+}
+
+#back{
+
 }
 input {
     width: 260px;
@@ -50,3 +72,9 @@ input {
 .button:active{
     background: rgb(40, 40, 140);
 }
+
+a{
+     text-decoration: none;
+     color: rgb(50, 50, 230);
+     font-size: 110%;
+ }

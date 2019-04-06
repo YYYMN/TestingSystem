@@ -26,6 +26,7 @@
                 <br>
                 <div id="dynamic_field"></div>
                 <button type="button" name="add" id="add" class="button">Добавить ответ</button>
+                <p><a href="/tutor/tutor-main-page" class="button" title="Вернуться на главную страницу">Назад</a></p>
                 <button id="save" name="save" value="save" type="submit" class="button" disabled >Сохранить</button>
             </form>
         </div>

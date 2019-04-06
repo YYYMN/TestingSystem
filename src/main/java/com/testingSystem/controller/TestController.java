@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -33,24 +34,25 @@ public class TestController {
     }
 
     @GetMapping({"/admin/tests-info", "/tutor/tests-info"})
-    public String showTestStatistic(Model model, HttpSession session){
+    public String showTestStatistic(Model model, HttpSession session, HttpServletRequest request){
         model.addAttribute("list", testStatisticService.getTestInfoList());
         String role = (String) session.getAttribute("role");
         return "/"+role+"/forStatistic/tests-info";
     }
 
     @GetMapping("/tutor/add-or-update-test")
-    public String createTest(Model model){
+    public String createTest(Model model, HttpServletRequest request){
         model.addAttribute("topics", topicImpl.getAllTopics());
         model.addAttribute("JSONQuestions", questionAndTestService.getAllQuestionsAsJSONArray());
         return "tutor/add-or-update-test";
     }
 
     @PostMapping("/tutor/add-or-update-test")
-    public String createTest(Model model, @RequestParam(name = "topic", required = false) String topic,
-                                          @RequestParam(name = "test", required = false) String test,
-                                          @RequestParam(name = "questions[]", required = false) String[] questions,
-                                          @RequestParam(name = "testId", required = false) String testId){
+    public String createTest(@RequestParam(name = "topic", required = false) String topic,
+                             @RequestParam(name = "test", required = false) String test,
+                             @RequestParam(name = "questions[]", required = false) String[] questions,
+                             @RequestParam(name = "testId", required = false) String testId,
+                             Model model, HttpServletRequest request){
         questionAndTestService.addTestToDb(topic, test, questions, testId);
         model.addAttribute("topics", topicImpl.getAllTopics());
         model.addAttribute("JSONQuestions", questionAndTestService.getAllQuestionsAsJSONArray());

@@ -24,7 +24,7 @@ public class TopicController {
     }
 
     @GetMapping("/admin/create-topic")
-    public String createTopicPage(Model model){
+    public String createTopicPage(Model model, HttpServletRequest request){
         Topic topic = new Topic();
         model.addAttribute("topic", topic);
 
@@ -32,7 +32,7 @@ public class TopicController {
     }
 
     @PostMapping("/admin/create-topic")
-    public String CreateTopic(Model model, Topic topic, BindingResult result) {
+    public String CreateTopic(Model model, Topic topic, BindingResult result, HttpServletRequest request) {
 
         creatingAndEditingTopicsService.CreatingTopic(topic);
         model.addAttribute("success","Новая тема успешно добавлена!");
@@ -40,7 +40,7 @@ public class TopicController {
     }
 
     @GetMapping("/admin/table-of-topics-for-editing")
-    public String getTableOfTopicsForEditing(Model model) {
+    public String getTableOfTopicsForEditing(Model model, HttpServletRequest request) {
 
         model.addAttribute("topicsList",creatingAndEditingTopicsService.getAllTopics());
         return "admin/forTopic/table-of-topics-for-editing";
@@ -56,7 +56,7 @@ public class TopicController {
     }
 
     @PostMapping("/admin/update-topic")
-    public String updateTopic(Model model, Topic topic, BindingResult result) {
+    public String updateTopic(Model model, Topic topic, BindingResult result, HttpServletRequest request) {
 
         creatingAndEditingTopicsService.updateTopic(topic);
         model.addAttribute("success","Тема успешно изменёна!");

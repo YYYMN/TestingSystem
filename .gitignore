@@ -46,3 +46,6 @@ lib/
 
 .DS_Store
 build
+
+#Logs
+*.log

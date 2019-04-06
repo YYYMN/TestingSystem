@@ -3,6 +3,7 @@ $(document).ready(function(){
     var testsData;
     var i = 0;
 
+    //Добавляем новое поле при нажатии кнопки "Добавить вопрос"
     $(document).on('click','#add',function(){
 
         $('.innerQuestionsDiv').append('<div class="question'+i+'">' +
@@ -12,13 +13,16 @@ $(document).ready(function(){
         i++;
     });
 
+    //Удаляем вопрос при нажатии на кнопку "Удалить"
     $(document).on('click','#remove', function (){
         var question_id = $(this).attr('name');
         $('.question'+question_id+'').remove();
 
     });
 
+    // Подтягиваем из БД существующие темы
     $(document).on('input','#topic', function (ev) {
+        //Если поле пустое, удаляем все, что находится ниже него
         if ($(ev.target).val() == "") {
             $('.innerTestsDiv').remove();
             $('.innerQuestionsDiv').remove();
@@ -32,7 +36,7 @@ $(document).ready(function(){
             success : function (data) {
                 testsData = data;
                 console.log(data);
-                $('.tests').append('<div class="innerTestsDiv"><input type="text" required list="tests" placeholder="Введите новый или выберите тест" id="test" name="test" autocomplete="off">' +
+                $('.tests').append('<div class="innerTestsDiv"><p><a>Выберите тест</a></p><input type="text" required list="tests" placeholder="Введите новый или выберите тест" id="test" name="test" autocomplete="off">' +
                     '<input hidden id="testId" name="testId" value="">'+
                     '<datalist id="tests" class="testsDatalist">');
 
@@ -45,10 +49,11 @@ $(document).ready(function(){
         })
     });
 
+    // Подтягиваем из БД существующие тесты
     $(document).on('input','#test', function (ev) {
 
         if ($('.innerQuestionsDiv')[0]){
-        }else $('.questions').append('<div class="innerQuestionsDiv"></div>');
+        }else $('.questions').append('<div class="innerQuestionsDiv"><p><a>Выберите вопросы для теста</a></p></div>');
 
 
 
@@ -57,7 +62,7 @@ $(document).ready(function(){
         }
 
         testsData.forEach(function(test) {
-            if ($(ev.target).val() == test.description) {
+            if ($(ev.target).val() == test.name) {
                 $('#testId').attr('value', test.testId)
             }
         });

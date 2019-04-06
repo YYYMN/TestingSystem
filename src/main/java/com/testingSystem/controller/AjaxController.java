@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class AjaxController {
 
     @RequestMapping(value = "/DisplayQuestionsFromDb", method = RequestMethod.GET)
     @ResponseBody
-    public List<Answer> displayQuestionsFromDb(@RequestParam(name = "targetQuestion") String targetQuestion, Model model){
+    public List<Answer> displayQuestionsFromDb(@RequestParam(name = "targetQuestion") String targetQuestion, Model model, HttpServletRequest request){
         List<Answer> answerList = answerImpl.getAnswersByQuestionId(questionImpl.getQuestionByDescription(targetQuestion).getQuestionId());
         String description;
         List<String> answersDescription = new ArrayList<>();
@@ -58,19 +59,22 @@ public class AjaxController {
 
     @RequestMapping(value = "/DeleteAnswerFromDb", method = RequestMethod.POST)
     @ResponseBody
-    public void deleteAnswerFromDb(@RequestParam(name = "targetAnswer") String targetAnswer) {
+    public void deleteAnswerFromDb(@RequestParam(name = "targetAnswer") String targetAnswer,
+                                   HttpServletRequest request) {
         answerImpl.deleteAnswerFromDb(targetAnswer);
     }
 
     @RequestMapping(value = "/GetTestsByTopic", method = RequestMethod.GET)
     @ResponseBody
-    public List<Test> getTestsByTopic(@RequestParam(name = "targetTopic", required = false) String targetTopic) {
+    public List<Test> getTestsByTopic(@RequestParam(name = "targetTopic", required = false) String targetTopic,
+                                      HttpServletRequest request) {
         return questionAndTestService.functionForList(topicImpl.getTopicByDescription(targetTopic).getTopicId());
     }
 
     @RequestMapping(value = "/GetQuestionsByTest", method = RequestMethod.GET)
     @ResponseBody
-    public List<Question> getQuestionsByTest(@RequestParam(name = "targetTest", required = false) String targetTest, Model model) {
+    public List<Question> getQuestionsByTest(@RequestParam(name = "targetTest", required = false) String targetTest,
+                                             Model model, HttpServletRequest request) {
         return questionImpl.getAllQuestionsByTestId(testImpl.getTestByDescription(targetTest).getTestId());
     }
 }

@@ -27,14 +27,14 @@ public class UserController {
     }
 
     @GetMapping({"/admin/users-info","/tutor/users-info"})
-    public String showTestStatistic(Model model, HttpSession session){
+    public String showTestStatistic(Model model, HttpSession session, HttpServletRequest request){
         model.addAttribute("list", userStatisticService.getUserInfoList());
         String role = (String) session.getAttribute("role");
         return ""+role+"/forStatistic/users-info";
     }
 
     @GetMapping("/admin/create-user")
-    public String createUserPage(Model model){
+    public String createUserPage(Model model, HttpServletRequest request){
         User user = new User();
         user.setRoles( new String[] {} );
         model.addAttribute("user", user);
@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @PostMapping("/admin/create-user")
-    public String addUser(Model model, User user, BindingResult result) {
+    public String addUser(Model model, User user, BindingResult result, HttpServletRequest request) {
 
         creatingAndEditingUsersService.CreatingUser(user);
         model.addAttribute("allRoles", creatingAndEditingUsersService.allRolesList());
@@ -55,7 +55,7 @@ public class UserController {
     }
 
     @GetMapping("/admin/table-of-users-for-editing")
-    public String getTableOfUsersForEditing(Model model) {
+    public String getTableOfUsersForEditing(Model model, HttpServletRequest request) {
 
         model.addAttribute("usersList",creatingAndEditingUsersService.getAllUsers());
         return "admin/forUser/table-of-users-for-editing";
@@ -74,7 +74,7 @@ public class UserController {
     }
 
     @PostMapping("/admin/update-user")
-    public String updateUser(Model model, User user, BindingResult result) {
+    public String updateUser(Model model, User user, BindingResult result, HttpServletRequest request) {
 
         // Роли можно не ввести, тогда случится Exception!!!    :(
         creatingAndEditingUsersService.updateUser(user);

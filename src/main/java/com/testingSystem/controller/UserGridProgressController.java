@@ -21,7 +21,7 @@ public class UserGridProgressController {
     }
 
     @GetMapping({"/admin/table-of-users-for-watching-grid", "/tutor/table-of-users-for-watching-grid"})
-    public String getTableOfUsersForWatchingGrid(Model model, HttpSession session){
+    public String getTableOfUsersForWatchingGrid(Model model, HttpSession session, HttpServletRequest request){
         model.addAttribute("usersList", userProgressGridService.getAllUsers());
         String role = (String) session.getAttribute("role");
 
