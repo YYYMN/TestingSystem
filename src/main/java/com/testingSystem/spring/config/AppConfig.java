@@ -12,6 +12,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 import javax.sql.DataSource;
+import java.util.Objects;
 
 @Configuration
 @EnableAspectJAutoProxy
@@ -31,7 +32,7 @@ public class AppConfig {
         driverManagerDataSource.setUrl(env.getProperty("spring.url"));
         driverManagerDataSource.setUsername(env.getProperty("spring.user"));
         driverManagerDataSource.setPassword(env.getProperty("spring.password"));
-        driverManagerDataSource.setDriverClassName(env.getProperty("spring.driver"));
+        driverManagerDataSource.setDriverClassName(Objects.requireNonNull(env.getProperty("spring.driver")));
         return driverManagerDataSource;
     }
 

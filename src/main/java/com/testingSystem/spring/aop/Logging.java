@@ -1,20 +1,14 @@
 package com.testingSystem.spring.aop;
 
-
 import org.apache.log4j.Logger;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Component;
-
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -36,7 +30,6 @@ public class Logging {
         log.info("===============================================");
         for (Object key : requestParameterMap.keySet()){
             log.info("PARAM = " + key + ", VALUE = " +  requestParameterMap.get(key));
-
         }
         Enumeration headers = request.getHeaderNames();
         while (headers.hasMoreElements()){

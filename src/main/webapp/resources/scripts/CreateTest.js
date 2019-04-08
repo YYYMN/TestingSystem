@@ -5,7 +5,6 @@ $(document).ready(function(){
 
     //Добавляем новое поле при нажатии кнопки "Добавить вопрос"
     $(document).on('click','#add',function(){
-
         $('.innerQuestionsDiv').append('<div class="question'+i+'">' +
             '<input type="text" required list="questions" id="question" placeholder="Выберите вопрос" name="questions[]" autocomplete="off">' +
             '<datalist id="questions" class="questionsDatalist">'+questionsToSelect()+'</datalist>'+
@@ -36,7 +35,7 @@ $(document).ready(function(){
             success : function (data) {
                 testsData = data;
                 console.log(data);
-                $('.tests').append('<div class="innerTestsDiv"><p><a>Выберите тест</a></p><input type="text" required list="tests" placeholder="Введите новый или выберите тест" id="test" name="test" autocomplete="off">' +
+                $('.tests').append('<div class="innerTestsDiv"><p><a>Выберите тест:</a></p><input type="text" required list="tests" placeholder="Введите новый или выберите тест" id="test" name="test" autocomplete="off">' +
                     '<input hidden id="testId" name="testId" value="">'+
                     '<datalist id="tests" class="testsDatalist">');
 
@@ -53,7 +52,7 @@ $(document).ready(function(){
     $(document).on('input','#test', function (ev) {
 
         if ($('.innerQuestionsDiv')[0]){
-        }else $('.questions').append('<div class="innerQuestionsDiv"><p><a>Выберите вопросы для теста</a></p></div>');
+        }else $('.questions').append('<div class="innerQuestionsDiv"><p id="chq"><a>Выберите вопросы для теста:</a></p></div>');
 
 
 

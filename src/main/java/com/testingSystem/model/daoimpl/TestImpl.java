@@ -17,12 +17,10 @@ import java.util.List;
 public class TestImpl implements TestDao {
 
     private JdbcTemplate jdbcTemplate;
-    private QuestionImpl questionImpl;
 
     @Autowired
     public TestImpl(AppConfig config, QuestionImpl questionImpl) {
         jdbcTemplate = new JdbcTemplate(config.dataSource());
-        this.questionImpl = questionImpl;
     }
 
     @Override
