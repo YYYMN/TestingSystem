@@ -32,13 +32,12 @@ public class AppConfig {
         driverManagerDataSource.setDriverClassName(env.getProperty("spring.driver"));
         return driverManagerDataSource;
     }
-
-/*    @Bean
+    @Bean
     public InternalResourceViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setViewClass(JstlView.class);
         viewResolver.setPrefix("/WEB-INF/views/");
         viewResolver.setSuffix(".jsp");
         return viewResolver;
-    }*/
+    }
 }
