@@ -1,7 +1,5 @@
 package com.testingSystem.model.entity;
 
-import java.util.List;
-
 public class User {
     private int userId;
     private String lastName;

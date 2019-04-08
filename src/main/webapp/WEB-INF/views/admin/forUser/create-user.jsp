@@ -12,8 +12,8 @@
 <div class="picture">
     <p><img src="<c:url value="/images/picture.png"/>" width="230" alt="Тут должен быть рисунок"></p>
 </div>
-<div class="CreateUserPage" align="center">
-    <form:form method="post" action="/CreateUser" modelAttribute="user">
+<div class="CreateUser" align="center">
+    <form:form method="post" action="/admin/create-user" modelAttribute="user">
 
         <table>
 
@@ -29,7 +29,7 @@
 
         </table>
     </form:form>
-    <p><a href="http://localhost:8080/html/CreatingAndEditingUsers.html" class="button" title="Вернуться на главную страицу">Назад</a></p>
+    <p><a href="/admin/add-or-update-user" class="button" title="Вернуться на главную страицу">Назад</a></p>
     <p id="success"><a style="color: green; font-size: 120%;" >${success}</a></p>
 </div>
 

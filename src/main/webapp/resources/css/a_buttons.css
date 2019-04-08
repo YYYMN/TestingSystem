@@ -46,6 +46,7 @@ a.delete:active{
     background: rgb(140, 40, 40);
 }
 a.showProgress{
+    white-space: nowrap;
     color: black; /* цвет текста */
     text-decoration: none; /* убирать подчёркивание у ссылок */
     user-select: none; /* убирать выделение текста */

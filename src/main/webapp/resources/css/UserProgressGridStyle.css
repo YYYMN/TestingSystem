@@ -1,14 +1,17 @@
 .yellow{
+    padding: 5px;
     border-radius: 50%;
     background-color: #e4de19;
 }
 
 .green{
+    padding: 5px;
     border-radius: 50%;
     background-color: #20ef20;
 }
 
 .red{
+    padding: 5px;
     border-radius: 50%;
     background-color: #dc1515;
 }

@@ -1,7 +1,7 @@
 .CreateQuestionPage {
     position: absolute;
     top: 80px;
-    right: 380px;
+    left: 750px;
 }
 .picture{
     position: absolute ;
@@ -54,4 +54,22 @@ input[type=checkbox] {
 }
 .button:active{
     background: rgb(40, 40, 140);
+}
+
+#add{
+    position: relative;
+    left: 20px;
+    margin: 5px;
+}
+
+#savebtn{
+    position: absolute;
+    left: 300px;
+    top: 0px;
+    white-space: nowrap;
+}
+
+#backbtn{
+    position: relative;
+    left: 67px;
 }

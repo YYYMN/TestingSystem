@@ -12,8 +12,8 @@
 <div class="picture">
     <p><img src="http://localhost:8080/images/picture.png" width="230" alt="Тут должен быть рисунок"></p>
 </div>
-<div class="CreateUserPage" align="center">
-    <form:form method="post" action="/UpdateUser" modelAttribute="user">
+<div class="CreateUser" align="center">
+    <form:form method="post" action="/admin/update-user" modelAttribute="user">
 
         <table>
             <tr><td><a class="text">Выберите роли для пользователя:</a></td></tr>
@@ -24,11 +24,10 @@
             <tr><td><form:password path="password" placeholder="Пароль" size="20" value="${user.password}" required="true"/></td></tr>
             <tr><td><form:input path="login" placeholder="Логин" size="20"  required="true"/></td></tr>
             <tr><td> <form:input type="email" path="email" placeholder="Почта" size="20"  required="true"/><br></td></tr>
-
             <tr><td><input type="submit" value="Обновить пользователя" /></td></tr>
         </table>
     </form:form>
-    <p><a href="http://localhost:8080/TableOfUsersForEditing" class="button" title="Вернуться на таблицу для редактирования пользователей">Назад</a></p>
+    <p><a href="/admin/table-of-users-for-editing" class="button" title="Вернуться на таблицу для редактирования пользователей">Назад</a></p>
     <p id="success"><a style="color: green; font-size: 120%;" >${success}</a></p>
 </div>
     <script>

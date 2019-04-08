@@ -37,9 +37,25 @@ public class QuestionAndTestService {
         return gson.toJson(questionImpl.getAllQuestions());
     }
 
-    public void addTestToDb(String topic, String test, String[] questions, String testId) {
-        testImpl.addTestToDb(topic, test, questions, testId);
-
+    public void addTestToDb(String topic, String test, String[] questions, String testID) {
+        if (testID.equals("")) {
+            testImpl.addNewTestToDB(topic, test, questions);
+            questionImpl.addQuestionsAndTestIdToQTConnection(questionImpl.getQuestionsIdByDescriptions(questions), test);
+        }else {
+            int testId = Integer.parseInt(testID);
+            try{
+                if (questions.length == testImpl.getCountOfQuestionsInTest(testID)){
+                    testImpl.updateTest(test, testId);
+                }else {
+                    if (questions.length != testImpl.getCountOfQuestionsInCorrectTest(test)){
+                        testImpl.addNewCorrectTestToDB(test, topic);
+                        questionImpl.addQuestionsAndTestIdToQTConnection(questionImpl.getQuestionsIdByDescriptions(questions), test);
+                    }
+                }
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     public List<Test> functionForList(int topicId){

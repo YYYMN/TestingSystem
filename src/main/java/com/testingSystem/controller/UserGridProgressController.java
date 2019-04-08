@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -19,23 +20,30 @@ public class UserGridProgressController {
         this.userProgressGridService = userProgressGridService;
     }
 
-    @GetMapping("/TableOfUsersForWatchingGrid")
-    public String getTableOfUsersForWatchingGrid(Model model){
+    @GetMapping({"/admin/table-of-users-for-watching-grid", "/tutor/table-of-users-for-watching-grid"})
+    public String getTableOfUsersForWatchingGrid(Model model, HttpSession session, HttpServletRequest request){
         model.addAttribute("usersList", userProgressGridService.getAllUsers());
-        return "TableOfUsersForWatchingGrid";
+        String role = (String) session.getAttribute("role");
+
+        return "/"+role+"/forUser/table-of-users-for-watching-grid";
     }
 
-    @GetMapping("/UserForWatchingGrid")
-    public String getUserForWatchingGrid(HttpServletRequest request, Model model){
+
+    @GetMapping({"/admin/user-for-watching-grid", "/tutor/user-for-watching-grid"})
+    public String getUserForWatchingGrid(HttpServletRequest request, Model model, HttpSession session){
 
         int userId = Integer.parseInt(request.getParameter("userId"));
         String userLastName = request.getParameter("userLastName");
         String userFirstName = request.getParameter("userFirstName");
         String userProgressGridList = userProgressGridService.getUserProgressGrid(userId);
+        String role = (String) session.getAttribute("role");
 
         model.addAttribute("progressGridList",userProgressGridList);
         model.addAttribute("userLastAndFirstName",userLastName + " " + userFirstName);
 
-        return "UserGridProgress";
+
+        return "/"+role+"/forUser/user-grid-progress";
     }
+
+
 }

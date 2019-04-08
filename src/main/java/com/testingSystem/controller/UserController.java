@@ -1,20 +1,17 @@
 package com.testingSystem.controller;
 
-import com.testingSystem.model.entity.Role;
 import com.testingSystem.model.entity.User;
 import com.testingSystem.model.services.CreatingAndEditingUsersService;
-import com.testingSystem.model.services.UserProgressGridService;
 import com.testingSystem.model.services.UserStatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class UserController {
@@ -29,43 +26,42 @@ public class UserController {
         this.creatingAndEditingUsersService = creatingAndEditingUsersService;
     }
 
-    @GetMapping("/UsersInfo")
-    public String showTestStatistic(Model model){
+    @GetMapping({"/admin/users-info","/tutor/users-info"})
+    public String showTestStatistic(Model model, HttpSession session, HttpServletRequest request){
         model.addAttribute("list", userStatisticService.getUserInfoList());
-        return "UsersInfo";
+        String role = (String) session.getAttribute("role");
+        return ""+role+"/forStatistic/users-info";
     }
 
-    @GetMapping("/CreateUser")
-    public String createUserPage(Model model){
+    @GetMapping("/admin/create-user")
+    public String createUserPage(Model model, HttpServletRequest request){
         User user = new User();
         user.setRoles( new String[] {} );
         model.addAttribute("user", user);
 
         model.addAttribute("allRoles", creatingAndEditingUsersService.allRolesList());
         //model.addAttribute("allRoles",addUserService.rolesList());
-        return "CreateUser";
+        return "admin/forUser/create-user";
     }
 
-    @PostMapping("/CreateUser")
-    public String addUser(Model model, User user, BindingResult result) {
+    @PostMapping("/admin/create-user")
+    public String addUser(Model model, User user, BindingResult result, HttpServletRequest request) {
 
         creatingAndEditingUsersService.CreatingUser(user);
-        user = new User();
-        model.addAttribute("user", user);
         model.addAttribute("allRoles", creatingAndEditingUsersService.allRolesList());
 
         model.addAttribute("success","Новый пользователь успешно добавлен!");
-        return "CreateUser";
+        return "admin/forUser/create-user";
     }
 
-    @GetMapping("/TableOfUsersForEditing")
-    public String getTableOfUsersForEditing(Model model) {
+    @GetMapping("/admin/table-of-users-for-editing")
+    public String getTableOfUsersForEditing(Model model, HttpServletRequest request) {
 
         model.addAttribute("usersList",creatingAndEditingUsersService.getAllUsers());
-        return "TableOfUsersForEditing";
+        return "admin/forUser/table-of-users-for-editing";
     }
 
-    @GetMapping("/getUserForUpdate")
+    @GetMapping("/admin/update-user")
     public String getUserForUpdate(HttpServletRequest request, Model model) {
 
         int userId = Integer.parseInt(request.getParameter("userId"));
@@ -74,28 +70,27 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("allRoles", creatingAndEditingUsersService.allRolesList());
 
-        return "UpdateUser";
+        return "admin/forUser/update-user";
     }
 
-    @PostMapping("/UpdateUser")
-    public String updateUser(Model model, User user, BindingResult result) {
+    @PostMapping("/admin/update-user")
+    public String updateUser(Model model, User user, BindingResult result, HttpServletRequest request) {
 
         // Роли можно не ввести, тогда случится Exception!!!    :(
         creatingAndEditingUsersService.updateUser(user);
 
         model.addAttribute("allRoles", creatingAndEditingUsersService.allRolesList());
         model.addAttribute("success","Пользователь успешно изменён!");
-        return "UpdateUser";
+        return "admin/forUser/update-user";
     }
 
-    @GetMapping("/DeleteUser")
-    public ModelAndView deleteUser(HttpServletRequest request) {
+     @GetMapping("/admin/delete-user")
+     public ModelAndView deleteUser(HttpServletRequest request) {
 
         int userId = Integer.parseInt(request.getParameter("userId"));
         creatingAndEditingUsersService.deleteUserByUserId(userId);
 
         //return "redirect: /TableOfUsersForEditing"  // не помогло
-        return new ModelAndView("redirect: /TableOfUsersForEditing");
+        return new ModelAndView("redirect: /admin/table-of-users-for-editing");
     }
-
 }

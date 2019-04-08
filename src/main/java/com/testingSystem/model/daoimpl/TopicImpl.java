@@ -28,17 +28,35 @@ public class TopicImpl implements TopicDao {
 
 
     public void addTopic(Topic topic) {
-
+        String SQL_ADD_TOPIC = "insert into testingsystem.topic (description, name)" +
+                "values (?,?)";
+        jdbcTemplate.update(SQL_ADD_TOPIC, topic.getDescription(), topic.getTopicName());
     }
 
-    public Topic getTopicById(Integer id) {
-        return null;
+    public Topic getTopicById(Integer topicId) {
+        String SQL_GET_TOPIC = "select * from testingsystem.topic where topicId = ?";
+        return jdbcTemplate.queryForObject(SQL_GET_TOPIC,new TopicMapper(),topicId);
+    }
+
+
+    @Override
+    public void updateTopic(Topic topic) {
+        String SQL_UPDATE_TOPIC = "UPDATE testingsystem.topic set topic.description = ?, topic.name = ?" +
+                " WHERE topic.topicId = ?";
+
+        jdbcTemplate.update(SQL_UPDATE_TOPIC,
+                topic.getDescription(), topic.getTopicName(), topic.getTopicId());
+    }
+
+    @Override
+    public void deleteTopicById(Integer topicId) {
+        String SQL_DELETE_TOPIC = "delete from testingsystem.topic where topicId = ?";
+        jdbcTemplate.update(SQL_DELETE_TOPIC,topicId);
     }
 
     public Topic getTopicByDescription(String topic) {
         String SQL_GET_TOPIC_BY_DESCRIPTION = "select * from testingsystem.topic where description ='"+topic+"'";
         return jdbcTemplate.queryForObject(SQL_GET_TOPIC_BY_DESCRIPTION, new TopicMapper());
     }
-
 
 }
