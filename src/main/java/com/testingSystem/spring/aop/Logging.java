@@ -7,9 +7,12 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 @Aspect
@@ -21,15 +24,19 @@ public class Logging {
     public void controller() {
     }
 
-    @After(value = "controller() && args(..,request, response)", argNames = "request,response")
-    public void LogToControllers(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @After(value = "controller() && args(..,request, response, session)", argNames = "request,response, session")
+    public void LogToControllers(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 
-    //  Я пока хз что логировать, может Леша в понедельник попонятней объяснит)
-        Map requestParameterMap =  request.getParameterMap();
+
+        log.info(session.getId());
+
+        Map requestParameterMap =   request.getParameterMap();
+
+
 
         log.info("===============================================");
         for (Object key : requestParameterMap.keySet()){
-            log.info("PARAM = " + key + ", VALUE = " +  requestParameterMap.get(key));
+            log.info("PARAM = " + key + ", VALUE = " + Arrays.toString((String[]) requestParameterMap.get(key)));
         }
         Enumeration headers = request.getHeaderNames();
         while (headers.hasMoreElements()){
@@ -38,7 +45,6 @@ public class Logging {
 
         log.info("Method:    "  + request.getMethod());
         log.info("URI:   " + request.getRequestURI());
-        log.info("PATHINFO " + request.getPathInfo());
         log.info("===============================================");
     }
 

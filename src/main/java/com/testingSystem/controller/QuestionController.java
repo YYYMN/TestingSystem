@@ -1,14 +1,14 @@
 package com.testingSystem.controller;
 
-import com.testingSystem.model.daoimpl.AnswerImpl;
 import com.testingSystem.model.daoimpl.QuestionImpl;
 import com.testingSystem.model.services.QuestionAndTestService;
 import com.testingSystem.model.services.QuestionStatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,14 +19,12 @@ public class QuestionController {
 
     private QuestionStatisticService questionStatisticService;
     private QuestionImpl questionImpl;
-    private AnswerImpl answerImpl;
     private QuestionAndTestService questionAndTestService;
 
     @Autowired
-    public QuestionController(QuestionStatisticService questionStatisticService, QuestionImpl questionImpl, AnswerImpl answerImpl, QuestionAndTestService questionAndTestService) {
+    public QuestionController(QuestionStatisticService questionStatisticService, QuestionImpl questionImpl, QuestionAndTestService questionAndTestService) {
         this.questionStatisticService = questionStatisticService;
         this.questionImpl = questionImpl;
-        this.answerImpl = answerImpl;
         this.questionAndTestService = questionAndTestService;
     }
 
@@ -38,17 +36,17 @@ public class QuestionController {
     }
 
     @GetMapping("/tutor/add-or-update-question")
-    public String createQuestion(Model model, HttpServletRequest request, HttpServletResponse response){
+    public String createQuestion(Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session){
         model.addAttribute("questions",questionImpl.getAllQuestions());
         return "tutor/add-or-update-question";
     }
 
     @PostMapping("/tutor/add-or-update-question")
-    public String createQuestion(@RequestParam(name = "question", required = false) String question,
-                                 @RequestParam(name = "answer[]", required = false) String[] answers,
-                                 @RequestParam(name="checkbox_option", required = false) String[] checkbox_option,
-                                 Model model, HttpServletRequest request,  HttpServletResponse response) {
-        questionAndTestService.addQuestionAndAnswersToDb(question, answers, checkbox_option);
+    public String createQuestion(@RequestParam(name = "question", required = false) Object question,
+                                 @RequestParam(name = "answer[]", required = false) Object[] answers,
+                                 @RequestParam(name="checkbox_option", required = false) Object[] checkbox_option,
+                                 Model model, HttpServletRequest request,  HttpServletResponse response, HttpSession session) {
+        questionAndTestService.addQuestionAndAnswersToDb((String) question, (String[]) answers, (String[])checkbox_option);
         model.addAttribute("questions",questionImpl.getAllQuestions());
         return "tutor/add-or-update-question";
     }
