@@ -7,17 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Collection;
-import java.util.stream.Stream;
 
 
 @Controller
 public class MainController {
-
-
 
     @GetMapping({"/", "/welcome"})
     public ModelAndView redirectFunction(HttpServletRequest request){
@@ -64,5 +60,16 @@ public class MainController {
         model.addAttribute("username", name);
         return "tutor/tutor-main-page";
     }
+
+    @GetMapping("/user/user-main-page")
+    public String user(Model model)
+    {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        model.addAttribute("username", name);
+        return "user/user-main-page";
+    }
+
+
 
 }

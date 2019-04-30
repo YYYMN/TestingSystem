@@ -18,7 +18,7 @@
                 <input type="text"  required list="topics" placeholder="Выберите тему" id="topic" name="topic" autocomplete="off">
                     <datalist id="topics" >
                         <c:forEach var="topic" items="${topics}">
-                            <option>${topic.description}</option>
+                            <option>${topic.topicName}</option>
                         </c:forEach>
                     </datalist>
                 <div id="savebtn"><button class="button" id="save" value="save" type="submit" >Сохранить тест</button></div>

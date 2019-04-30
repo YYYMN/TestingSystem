@@ -21,10 +21,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
 
 @Controller
 public class AjaxController {
-
 
     private QuestionStatisticService questionStatisticService;
     private QuestionImpl questionImpl;

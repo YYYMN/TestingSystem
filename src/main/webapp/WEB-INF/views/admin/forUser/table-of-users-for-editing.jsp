@@ -8,14 +8,15 @@
 </head>
 <body>
 <div align="center">
-<h1>Таблица для редактирования пользователей</h1>
-<table border="1" class="info">
-    <th>№</th>
-    <th>Фамилия</th>
-    <th>Имя</th>
-    <th>Логин</th>
-    <th>email</th>
-    <th>Действие</th>
+    <h1>Таблица для редактирования пользователей</h1>
+    <table border="1" class="info">
+        <th>№</th>
+        <th>Фамилия</th>
+        <th>Имя</th>
+        <th>Логин</th>
+        <th>email</th>
+        <th>Действие</th>
+
 
     <c:forEach var="user" items="${usersList}" varStatus="status">
         <tr>
@@ -32,6 +33,7 @@
     </c:forEach>
 </table>
     <p><a href="/admin/add-or-update-user" class="button" title="Вернуться на страицу назад">Назад</a></p>
+
 </div>
 </body>
 </html>

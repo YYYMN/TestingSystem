@@ -8,7 +8,7 @@ public class Topic {
     public Topic() {
     }
 
-    public Topic(String topicName, String description) {
+    public Topic(String topicName, String description){
         this.topicName = topicName;
         this.description = description;
     }
