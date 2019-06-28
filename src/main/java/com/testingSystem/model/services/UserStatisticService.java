@@ -30,8 +30,10 @@ public class UserStatisticService implements CalculatePercentage {
             this.percent = percent;
         }
 
+         public UserInfo() {
+         }
 
-        public String getUserNameAndSurname() {
+         public String getUserNameAndSurname() {
             return userNameAndSurname;
         }
 
@@ -56,7 +58,7 @@ public class UserStatisticService implements CalculatePercentage {
         }
     }
 
-    // Кастомный класс для хранения имени теста, количествапройденых раз и процента
+    // Кастомный класс для хранения имени теста, количества пройденых раз и процента
     private static final class TestNameCountPercent {
         private String testName;
         private Integer count;

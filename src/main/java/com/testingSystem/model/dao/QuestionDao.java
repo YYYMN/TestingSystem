@@ -11,4 +11,6 @@ public interface QuestionDao {
     Question getQuestionByDescription(String question);
     List<Integer> getQuestionsIdByDescriptions(String[] questions);
     void addQuestionsAndTestIdToQTConnection(List<Integer> questionsId, String test);
+    Question getQuestionByTestIdAndQuestionId(int testId, int questionId);
+    List<Integer> getAllQuestionsIdByTestId(int testId);
 }

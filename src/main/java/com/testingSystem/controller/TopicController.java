@@ -1,5 +1,6 @@
 package com.testingSystem.controller;
 
+import com.testingSystem.model.daoimpl.TopicImpl;
 import com.testingSystem.model.entity.Topic;
 import com.testingSystem.model.services.CreatingAndEditingTopicsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +17,18 @@ import java.util.stream.Stream;
 @Controller
 public class TopicController {
 
+    private TopicImpl topicImpl;
     private CreatingAndEditingTopicsService creatingAndEditingTopicsService;
 
     @Autowired
-    public TopicController(CreatingAndEditingTopicsService creatingAndEditingTopicsService) {
+    public TopicController(CreatingAndEditingTopicsService creatingAndEditingTopicsService,
+                           TopicImpl topicImpl) {
         this.creatingAndEditingTopicsService = creatingAndEditingTopicsService;
+        this.topicImpl = topicImpl;
     }
 
     @GetMapping("/admin/create-topic")
-    public String createTopicPage(Model model, HttpServletRequest request){
+    public String createTopicPage(Model model, HttpServletRequest request) {
         Topic topic = new Topic();
         model.addAttribute("topic", topic);
 
@@ -35,14 +39,14 @@ public class TopicController {
     public String CreateTopic(Model model, Topic topic, BindingResult result, HttpServletRequest request) {
 
         creatingAndEditingTopicsService.CreatingTopic(topic);
-        model.addAttribute("success","Новая тема успешно добавлена!");
+        model.addAttribute("success", "Новая тема успешно добавлена!");
         return "admin/forTopic/create-topic";
     }
 
     @GetMapping("/admin/table-of-topics-for-editing")
     public String getTableOfTopicsForEditing(Model model, HttpServletRequest request) {
 
-        model.addAttribute("topicsList",creatingAndEditingTopicsService.getAllTopics());
+        model.addAttribute("topicsList", creatingAndEditingTopicsService.getAllTopics());
         return "admin/forTopic/table-of-topics-for-editing";
     }
 
@@ -59,7 +63,7 @@ public class TopicController {
     public String updateTopic(Model model, Topic topic, BindingResult result, HttpServletRequest request) {
 
         creatingAndEditingTopicsService.updateTopic(topic);
-        model.addAttribute("success","Тема успешно изменёна!");
+        model.addAttribute("success", "Тема успешно изменёна!");
         return "admin/forTopic/update-topic";
     }
 
@@ -71,4 +75,9 @@ public class TopicController {
         return new ModelAndView("redirect: /admin/table-of-topics-for-editing");
     }
 
+    @GetMapping("/user/forTest/choose-topic")
+    public String chooseTopic(Model model) {
+        model.addAttribute("topics", topicImpl.getAllTopics());
+        return "user/forTest/choose-topic";
+    }
 }

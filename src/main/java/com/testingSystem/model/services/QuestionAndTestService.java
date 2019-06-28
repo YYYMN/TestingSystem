@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.testingSystem.model.daoimpl.AnswerImpl;
 import com.testingSystem.model.daoimpl.QuestionImpl;
 import com.testingSystem.model.daoimpl.TestImpl;
+import com.testingSystem.model.entity.Answer;
 import com.testingSystem.model.entity.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,10 @@ public class QuestionAndTestService {
     public void addQuestionAndAnswersToDb(String question, String[] answers, String[] checkbox_option) {
             questionImpl.addQuestionToDb(question);
             answerImpl.addAnswersToDb(answers, question, checkbox_option);
+    }
+
+    public List<Answer> getAnswerByQuestionId(int question) {
+        return answerImpl.getAnswersByQuestionId(question);
     }
 
     public String getAllQuestionsAsJSONArray(){

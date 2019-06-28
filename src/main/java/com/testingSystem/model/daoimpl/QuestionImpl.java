@@ -38,6 +38,21 @@ public class QuestionImpl implements QuestionDao {
        return questions;
     }
 
+    public Question getQuestionByTestIdAndQuestionId(int testId, int questionId) {
+            String SQL_GET_QUESTION_BY_TESTID_AND_QUESTIONID = "SELECT * FROM question INNER JOIN qt_conn on question.questionId = qt_conn.questionId\n" +
+                    "WHERE testId = " + testId + " AND qt_conn.questionId = " + questionId;
+
+        return jdbcTemplate.queryForObject(SQL_GET_QUESTION_BY_TESTID_AND_QUESTIONID, new QuestionMapper());
+    }
+
+    @Override
+    public List<Integer> getAllQuestionsIdByTestId(int testId) {
+        String SQL_GET_ALL_QUESTIONID_BY_TESTID = "SELECT questionId FROM qt_conn WHERE testId = " + testId;
+
+        List<Integer> integers = jdbcTemplate.queryForList(SQL_GET_ALL_QUESTIONID_BY_TESTID, Integer.TYPE);
+        return integers;
+    }
+
     @Override
     public void addQuestionToDb(String question) {
         String SQL_CHECK_IF_QUESTION_EXIST = "SELECT Count(questionId) FROM question WHERE description='"+question+"'";

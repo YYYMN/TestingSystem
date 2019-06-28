@@ -28,4 +28,10 @@ public class Question {
         this.description = description;
     }
 
+    @Override
+    public String toString() {
+        return "Question{" +
+                "description='" + description + '\'' +
+                '}';
+    }
 }

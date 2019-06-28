@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class TestController {
@@ -33,9 +35,10 @@ public class TestController {
         this.questionAndTestService = questionAndTestService;
     }
 
-    @GetMapping({"/admin/tests-info", "/tutor/tests-info"})
+    @GetMapping({"/admin/tests-info", "/tutor/tests-info", "/user/tests-info"})
     public String showTestStatistic(Model model, HttpSession session, HttpServletRequest request){
         model.addAttribute("list", testStatisticService.getTestInfoList());
+        System.out.println("Statistic");
         String role = (String) session.getAttribute("role");
         return "/"+role+"/forStatistic/tests-info";
     }
@@ -58,4 +61,32 @@ public class TestController {
         model.addAttribute("JSONQuestions", questionAndTestService.getAllQuestionsAsJSONArray());
         return "tutor/add-or-update-test";
     }
+
+    @GetMapping("/tutor/choose-test-for-add-or-update-question")
+    public String chooseTestForAddOrUpdateQuestion(Model model) {
+        System.out.println("Hello");
+        model.addAttribute("allTests", testImpl.getAllTests());
+        return "/tutor/choose-test-for-add-or-update-question";
+    }
+
+    @GetMapping("/user/forTest/choose-test")
+    public String chooseTest(Model model, HttpServletRequest request) {
+        int topicId = Integer.parseInt(request.getParameter("topicId"));
+        request.getSession().setAttribute("questionId", 0);
+        List<Integer> correctAnswer = new ArrayList<>();
+        request.getSession().setAttribute("correctAnswer", correctAnswer);
+        List<Integer> questionWrongAnswerID = new ArrayList<>();
+        request.getSession().setAttribute("questionWrongAnswerID", questionWrongAnswerID);
+        model.addAttribute("allTests", testImpl.getAllTestsByTopicId(topicId));
+        return "user/forTest/choose-test";
+    }
+
+//    @GetMapping("/user/forTest/start-test")
+//    public String startTest(Model model, HttpServletRequest request) {
+//        System.out.println("Try get testId");
+//      int testId = Integer.parseInt(request.getParameter("testId"));
+//        System.out.println(testId);
+//        model.addAttribute("allQuestions", questionImpl.getAllQuestionsByTestId(testId));
+//        return "user/forTest/test";
+//    }
 }

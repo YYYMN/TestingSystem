@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class UserImpl implements UserDao {
     public User getUserById(Integer userId) {
 
         String SQL_GET_USER = "select * from testingsystem.user where userId = ?";
-        return jdbcTemplate.queryForObject(SQL_GET_USER,new UserMapper(),userId);
+        return jdbcTemplate.queryForObject(SQL_GET_USER,new UserMapper(), userId);
     }
 
     public User getUserByLogin(String login) {
@@ -73,6 +72,8 @@ public class UserImpl implements UserDao {
     @Override
     public void deleteUserById(Integer userId) {
         String SQL_DELETE_USER = "delete from testingsystem.user where userId = ?";
+        String SQL_DELETE_USER_STATISTIC = "delete FROM testingsystem.statistic where userId = ?";
+        jdbcTemplate.update(SQL_DELETE_USER_STATISTIC, userId);
         jdbcTemplate.update(SQL_DELETE_USER,userId);
     }
 }

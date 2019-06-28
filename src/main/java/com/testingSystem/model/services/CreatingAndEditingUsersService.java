@@ -44,7 +44,9 @@ public class CreatingAndEditingUsersService {
         userDao.updateUser(user);
     }
 
-    public void deleteUserByUserId(Integer userId) { userDao.deleteUserById(userId);}
+    public void deleteUserByUserId(Integer userId) {
+        userDao.deleteUserById(userId);
+    }
 
     /**
      *

@@ -11,7 +11,9 @@ public interface CalculatePercentage {
         double countQuestions = statisticList.size();
 
         for (Statistic statistic : statisticList){
-            if (statistic.isCorrect()) countOfTrueAnswers++;
+            if (statistic.isCorrect()) {
+                countOfTrueAnswers++;
+            }
         }
         return  (int) Math.round(countOfTrueAnswers / countQuestions * 100);
     }

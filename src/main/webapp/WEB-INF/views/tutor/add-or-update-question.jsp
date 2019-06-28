@@ -20,7 +20,7 @@
                 <input list="questions" required placeholder = "Выберите или введите новый вопрос" id="question" name="question" autocomplete="off">
                     <datalist id="questions" >
                         <c:forEach var="question" items="${questions}">
-                            <option>${question.description}</option>
+                            <option name="testId" value="${testId}">${question.description}</option>
                         </c:forEach>
                     </datalist>
                 <div id="savebtn"><button id="save" name="save" value="save" type="submit" class="button" disabled >Сохранить вопрос</button></div>

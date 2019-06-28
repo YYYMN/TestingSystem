@@ -2,8 +2,11 @@ package com.testingSystem.spring.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebMvc
@@ -23,6 +26,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addViewController("/admin/add-or-update-user").setViewName("admin/forUser/add-or-update-user");
         registry.addViewController("/admin/statistics").setViewName("admin/forStatistic/statistics");
         registry.addViewController("/tutor/statistics").setViewName("tutor/forStatistic/statistics");
+        registry.addViewController("/user/statistics").setViewName("user/forStatistic/statistics");
+        registry.addViewController("/user/choose-test").setViewName("user/ForTest/choose-test");
     }
 
     @Override

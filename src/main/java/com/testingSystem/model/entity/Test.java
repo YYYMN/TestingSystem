@@ -45,4 +45,14 @@ public class Test {
     public void setTopicId(Integer topicId) {
         this.topicId = topicId;
     }
+
+    @Override
+    public String toString() {
+        return "Test{" +
+                "testName='" + testName + '\'' +
+                ", description='" + description + '\'' +
+                ", testId=" + testId +
+                ", topicId=" + topicId +
+                '}';
+    }
 }

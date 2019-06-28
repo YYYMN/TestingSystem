@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Collection;
@@ -16,34 +17,32 @@ import java.util.Collection;
 public class MainController {
 
     @GetMapping({"/", "/welcome"})
-    public ModelAndView redirectFunction(HttpServletRequest request){
+    public ModelAndView redirectFunction(HttpServletRequest request) {
         HttpSession session;
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> collection = auth.getAuthorities();
         String roles = collection.toString();
 
-        if (roles.equals("[ROLE_Admin]")){
+        if (roles.equals("[ROLE_Admin]")) {
             session = request.getSession();
             session.setAttribute("role", "admin");
             return new ModelAndView("redirect: /admin/admin-main-page ");
-        }
-        else if(roles.equals("[ROLE_Tutor]")) {
+        } else if (roles.equals("[ROLE_Tutor]")) {
             session = request.getSession();
             session.setAttribute("role", "tutor");
             return new ModelAndView("redirect: /tutor/tutor-main-page");
-        }
-        else if(roles.equals("[ROLE_User]")) {
+        } else if (roles.equals("[ROLE_User]")) {
             session = request.getSession();
             session.setAttribute("role", "user");
             return new ModelAndView("redirect: /user/user-main-page");
+        } else {
+            return new ModelAndView("redirect: /welcome");
         }
-        else {return new ModelAndView("redirect: /welcome");}
 
     }
 
     @GetMapping("/admin/admin-main-page")
-    public String admin(Model model, HttpServletRequest request)
-    {
+    public String admin(Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         model.addAttribute("username", name);
@@ -51,8 +50,7 @@ public class MainController {
     }
 
     @GetMapping("/tutor/tutor-main-page")
-    public String tutor(Model model, HttpServletRequest request)
-    {
+    public String tutor(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
@@ -62,14 +60,13 @@ public class MainController {
     }
 
     @GetMapping("/user/user-main-page")
-    public String user(Model model)
-    {
+    public String user(Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
+        request.getSession().setAttribute("login", name);
         model.addAttribute("username", name);
         return "user/user-main-page";
     }
-
 
 
 }

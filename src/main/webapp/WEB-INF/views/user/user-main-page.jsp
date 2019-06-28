@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TutorMainPage</title>
+    <title>UserMainPage</title>
     <link rel="stylesheet" href="http://localhost:8080/css/style.css">
 </head>
 <body>
@@ -10,10 +10,14 @@
     <p><img src="http://localhost:8080/images/picture.png" width="230" alt="Тут должен быть рисунок"></p>
 </div>
 <div class="refPage" align="center">
-    <p style="font-size: 110%">Добро пожаловать, <span style="color: green;">${username}!</span></p>
-    <p><a href="/tutor/add-or-update-test" class="text">Создать или редактировать тест</a></p>
-    <p><a href="/tutor/choose-test-for-add-or-update-question" class="text">Выбрать тест для создания или редактирования вопроса</a></p>
-    <p><a href="/tutor/statistics" class="text">Статистика</a></p>
+    <p style="font-size: 110%">Добро пожаловать, <span style="color: black;">${username}!</span></p>
+    <p><a href="/user/forTest/choose-topic" class="text">Выбрать тест</a></p>
+
+    <p><a href="/user/statistics" class="text">Статистика</a></p>
+    <p></p>
+    <form method="post" action="/user/user-main-page">
+        <button name="name" value="misha">Enter Please</button>
+    </form>
 
     <form action="/logout" method="post" >
         <input type="submit" class="logout" value="Выйти" />
