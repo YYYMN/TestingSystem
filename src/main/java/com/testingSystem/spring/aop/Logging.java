@@ -33,7 +33,7 @@ public class Logging {
         Map requestParameterMap = request.getParameterMap();
 
 
-        log.info("================= ==  ================================ ");
+        log.info("=========  ======== ==  ================================ ");
         for (Object key : requestParameterMap.keySet()) {
             log.info("PARAM = " + key + ", VALUE = " + Arrays.toString((String[]) requestParameterMap.get(key)));
         }
