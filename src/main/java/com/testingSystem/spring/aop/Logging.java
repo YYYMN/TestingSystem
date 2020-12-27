@@ -33,7 +33,7 @@ public class Logging {
         Map requestParameterMap = request.getParameterMap();
 
 
-        log.info("=================================================== ");
+        log.info("===================  ================================ ");
         for (Object key : requestParameterMap.keySet()) {
             log.info("PARAM = " + key + ", VALUE = " + Arrays.toString((String[]) requestParameterMap.get(key)));
         }
@@ -44,7 +44,7 @@ public class Logging {
 
         log.info("Method:    " + request.getMethod());
         log.info("URI:   " + request.getRequestURI());
-        log.info("==================================================== ");
+        log.info("===================  ================================= ");
     }
 
 
